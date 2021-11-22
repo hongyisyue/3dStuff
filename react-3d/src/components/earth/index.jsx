@@ -1,4 +1,4 @@
-import { useLoader } from "@react-three/fiber";
+import { useLoader, useFrame } from "@react-three/fiber";
 import React, { useRef, PointerEvent } from "react";
 import * as THREE from "three";
 import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
@@ -20,21 +20,57 @@ export function Earth(params) {
   let isEnter = false;
   let isPressing = false;
 
-  function toggleEnter(v) {
-    isEnter = v;
+  let lastX;
+  let lastY;
+
+  useFrame(({ clock }) => {
+    const elapsedTime = clock.getElapsedTime();
+
+    earthRef.current.rotation.y = elapsedTime / 6;
+    cloudsRef.current.rotation.y = elapsedTime / 6;
+  });
+
+  function toggleEnter(e) {
+    if (isEnter) {
+        isEnter = !isEnter;
+        lastX = undefined;
+        lastY = undefined;
+    } else {
+        isEnter = true
+        lastX = e.width;
+        lastY = e.height;
+    }
   }
-  function togglePress(v) {
-    isPressing = v;
+
+  function togglePress(e) {
+    if (isPressing) {
+        console.log('up');
+        isPressing = !isPressing;
+        lastX = undefined;
+        lastY = undefined;
+    } else {
+        console.log('down -> lastX');
+        isPressing = true
+        lastX = e.width;
+        lastY = e.height;
+        console.log(lastX);
+    }
   }
   function rotate(e) {
-    if (isEnter && isPressing) {
-        earthRef.current.rotation.y -= e.width * 0.03;
-        cloudsRef.current.rotation.y -= e.width * 0.03;
+    if (isPressing) {
+        console.log('drag: ' + e.width);
+        if (e.width < lastX) {
+            earthRef.current.rotation.y -= e.width * 0.08;
+            cloudsRef.current.rotation.y -= e.width * 0.08;
+        } else {
+            earthRef.current.rotation.y += e.width * 0.08;
+            cloudsRef.current.rotation.y += e.width * 0.08;
+        }
     }
   }
     return (
         <>
-            <pointLight color="#f6f3ea" position={[0, 0, 10]} intensity={10} />
+            <pointLight color="#f6f3ea" position={[-5, 10, 10]} intensity={20} />
             <Stars
                 radius={300}
                 depth={60}
@@ -44,21 +80,15 @@ export function Earth(params) {
                 fade={true}
             />
             <mesh ref={cloudsRef} position={[0, 0, 0]}
-                onPointerEnter={(e) => {
-                    toggleEnter(true);
-                }}
-                onPointerDown={(e) => {
-                    togglePress(true);
-                }}
-                onPointerMove={(e) => {
-                    rotate(e);
-                }}
-                onPointerUp={(e) => {
-                    togglePress(false);
-                }}
-                onPointerLeave={(e) => {
-                    toggleEnter(false);
-                }}
+                // onPointerDown={(e) => {
+                //     togglePress(e);
+                // }}
+                // onPointerMove={(e) => {
+                //     rotate(e);
+                // }}
+                // onPointerUp={(e) => {
+                //     togglePress(e);
+                // }}
             >
                 <sphereGeometry args={[1, 32, 32]} />
                 <meshPhongMaterial
