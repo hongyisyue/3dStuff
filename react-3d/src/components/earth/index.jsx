@@ -34,6 +34,28 @@ export function Earth(params) {
         z: Math.sin(xiamen.lat)
     }
 
+    const vancouver = {
+        lat: 49.2462 * Math.PI / 180,
+        lng: -123.1162 * Math.PI / 180 - 115 * Math.PI / 180
+    }
+
+    const vancouver_xyz = {
+        x: Math.cos(vancouver.lng) * Math.cos(vancouver.lat),
+        y: Math.sin(vancouver.lng) * Math.cos(vancouver.lat),
+        z: Math.sin(vancouver.lat)
+    }
+
+    const stoon = {
+        lat: 52.1332 * Math.PI / 180,
+        lng: 106.6700 * Math.PI / 180
+    }
+
+    const stoon_xyz = {
+        x: Math.cos(stoon.lng) * Math.cos(stoon.lat),
+        y: Math.sin(stoon.lng) * Math.cos(stoon.lat),
+        z: Math.sin(stoon.lat)
+    }
+
     // useFrame(({ clock }) => {
     //     const elapsedTime = clock.getElapsedTime();
 
@@ -124,6 +146,16 @@ export function Earth(params) {
                 />
                 {/* <OrbitControls enablePan={false} enableZoom={false} enableRotate={true} /> */}
             <mesh position={[xiamen_xyz.x, xiamen_xyz.z, xiamen_xyz.y]}>
+                <sphereBufferGeometry args={[0.0125, 32, 32]}/>
+                <meshBasicMaterial color="red"></meshBasicMaterial>
+            </mesh>
+
+            <mesh position={[vancouver_xyz.x, vancouver_xyz.z, vancouver_xyz.y]}>
+                <sphereBufferGeometry args={[0.0125, 32, 32]}/>
+                <meshBasicMaterial color="red"></meshBasicMaterial>
+            </mesh>
+
+            <mesh position={[stoon_xyz.x, stoon_xyz.z, stoon_xyz.y]}>
                 <sphereBufferGeometry args={[0.0125, 32, 32]}/>
                 <meshBasicMaterial color="red"></meshBasicMaterial>
             </mesh>
