@@ -18,20 +18,23 @@ export function Earth(params) {
     const cloudsRef = useRef();
     const light = useRef();
     const obj = useRef();
- 
+
+    let isEnter = false;
     let isPressing = false;
 
     let lastX;
     let lastY;
+
+    const earth_r = 1.3;
 
     const xiamen = {
         lat: 24.4797 * Math.PI / 180,
         lng: 118.0818 * Math.PI / 180 + 125 * Math.PI / 180,
     }
     const xiamen_xyz = {
-        x: Math.cos(xiamen.lng) * Math.cos(xiamen.lat),
-        y: Math.sin(xiamen.lat),
-        z: Math.sin(xiamen.lng) * Math.cos(xiamen.lat)
+        x: earth_r * Math.cos(xiamen.lng) * Math.cos(xiamen.lat),
+        y: earth_r * Math.sin(xiamen.lat),
+        z: earth_r * Math.sin(xiamen.lng) * Math.cos(xiamen.lat)
     }
 
     const vancouver = {
@@ -39,9 +42,9 @@ export function Earth(params) {
         lng: -123.1162 * Math.PI / 180 - 115 * Math.PI / 180
     }
     const vancouver_xyz = {
-        x: Math.cos(vancouver.lng) * Math.cos(vancouver.lat),
-        y: Math.sin(vancouver.lat),
-        z: Math.sin(vancouver.lng) * Math.cos(vancouver.lat)
+        x: earth_r * Math.cos(vancouver.lng) * Math.cos(vancouver.lat),
+        y: earth_r * Math.sin(vancouver.lat),
+        z: earth_r * Math.sin(vancouver.lng) * Math.cos(vancouver.lat)
     }
 
     const stoon = {
@@ -49,20 +52,63 @@ export function Earth(params) {
         lng: 106.6700 * Math.PI / 180
     }
     const stoon_xyz = {
-        x: Math.cos(stoon.lng) * Math.cos(stoon.lat),
-        y: Math.sin(stoon.lat),
-        z: Math.sin(stoon.lng) * Math.cos(stoon.lat)
+        x: earth_r * Math.cos(stoon.lng) * Math.cos(stoon.lat),
+        y: earth_r * Math.sin(stoon.lat),
+        z: earth_r * Math.sin(stoon.lng) * Math.cos(stoon.lat)
+    }
+
+    const tokyo = {
+        lat: 35.6528 * Math.PI / 180,
+        lng: 139.8394 * Math.PI / 180 + 80 * Math.PI / 180
+    }
+    const tokyo_xyz = {
+        x: earth_r * Math.cos(tokyo.lng) * Math.cos(tokyo.lat),
+        y: earth_r * Math.sin(tokyo.lat),
+        z: earth_r * Math.sin(tokyo.lng) * Math.cos(tokyo.lat) 
+    }
+
+    const osaka = {
+        lat: 34.6723 * Math.PI / 180,
+        lng: 135.4848 * Math.PI / 180 + 90 * Math.PI / 180
+    }
+    const osaka_xyz = {
+        x: earth_r * Math.cos(osaka.lng) * Math.cos(osaka.lat),
+        y: earth_r * Math.sin(osaka.lat),
+        z: earth_r * Math.sin(osaka.lng) * Math.cos(osaka.lat)
     }
 
     const x_v_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, vancouver_xyz));
     const v_s_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, stoon_xyz));
+    const x_t_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, tokyo_xyz));
+    const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
 
-    // useFrame(({ clock }) => {
-    //     const elapsedTime = clock.getElapsedTime();
+    function getCurve(p1, p2) {
+        const v1 = new THREE.Vector3(p1.x, p1.y, p1.z);
+        const v2 = new THREE.Vector3(p2.x, p2.y, p2.z);
 
-    //     earthRef.current.rotation.y = elapsedTime / 6;
-    //     cloudsRef.current.rotation.y = elapsedTime / 6;
-    // });
+        const points = [];
+        for (let i = 0; i < 21; i++) {
+            const p = new THREE.Vector3().lerpVectors(v1, v2, i / 20);
+            p.normalize();
+            p.multiplyScalar(earth_r + 0.1 * Math.sin(Math.PI * i / 20));
+            points.push(p);
+        }
+
+        return points;
+    }
+
+    useFrame(({ clock }) => {
+        if (!isEnter) {
+            const elapsedTime = clock.getElapsedTime();
+
+            earthRef.current.rotation.y += 0.005;
+            cloudsRef.current.rotation.y += 0.005;
+        }
+    });
+
+    function toggleEnter(e) {
+        isEnter = e;
+    }
 
     function togglePress(e) {
         if (isPressing) {
@@ -91,24 +137,12 @@ export function Earth(params) {
         }
     }
 
-    function getCurve(p1, p2) {
-        const v1 = new THREE.Vector3(p1.x, p1.y, p1.z);
-        const v2 = new THREE.Vector3(p2.x, p2.y, p2.z);
-
-        const points = [];
-        for (let i = 0; i < 30; i++) {
-            const p = new THREE.Vector3().lerpVectors(v1, v2, i/20);
-            p.normalize();
-            p.multiplyScalar(1 + 0.1 * Math.sin(Math.PI * i/20));
-            points.push(p);
-        }
-
-        return points;
-    }
-
     return (
         <>
-            <pointLight color="#f6f3ea" position={[-25, 50, 50]} intensity={6} />
+            <pointLight color="#fff6e6" position={[-20, 20, 15]} intensity={2} />
+            <pointLight color="#fff6e6" position={[20, 0, -15]} intensity={2} />
+            <pointLight color="#fff6e6" position={[-20, -20, -15]} intensity={1} />
+            <pointLight color="#fff6e6" position={[20, 0, 15]} intensity={1} />
             <Stars
                 radius={300}
                 depth={60}
@@ -117,31 +151,18 @@ export function Earth(params) {
                 saturation={0}
                 fade={true}
             />
-            <mesh ref={cloudsRef} position={[0, 0, 0]}
-                onPointerDown={(e) => {
-                    togglePress(e);
-                }}
-                onPointerMove={(e) => {
-                    rotate(e);
-                }}
-                onPointerUp={(e) => {
-                    togglePress(e);
-                }}
-                onPointerLeave={(e) => {
-                    togglePress(e);
-                }}
-            >
-                <sphereGeometry args={[1.035, 64, 64]} />
+            <mesh ref={cloudsRef} position={[2, 0, 0]}>
+                <sphereGeometry args={[1.35, 64, 64]} />
                 <meshPhongMaterial
                     map={cloudsMap}
-                    opacity={0.2}
+                    opacity={0.4}
                     depthWrite={true}
                     transparent={true}
                     side={THREE.DoubleSide}
                 />
             </mesh>
-            <mesh ref={earthRef} position={[0, 0, 0]}>
-                <sphereGeometry args={[1, 64, 64]} />
+            <mesh ref={earthRef} position={[2, 0, 0]}>
+                <sphereGeometry args={[1.3, 64, 64]} />
                 <meshPhongMaterial specularMap={specularMap} />
                 <meshStandardMaterial
                     map={dayMap}
@@ -149,30 +170,61 @@ export function Earth(params) {
                     metalness={0.4}
                     roughness={0.7}
                 />
-                {/* <OrbitControls enablePan={false} enableZoom={false} enableRotate={true} /> */}
                 <mesh position={[xiamen_xyz.x, xiamen_xyz.y, xiamen_xyz.z]}>
-                    <sphereBufferGeometry args={[0.0125, 32, 32]} />
+                    <sphereBufferGeometry args={[0.018, 32, 32]} />
+                    <meshBasicMaterial color="#427ddb"></meshBasicMaterial>
+                </mesh>
+
+                <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
+                    <sphereBufferGeometry args={[0.018, 32, 32]} />
                     <meshBasicMaterial color="red"></meshBasicMaterial>
                 </mesh>
 
-                <mesh>
-                    <tubeGeometry args={[x_v_path, 20, 0.01, 8, false]}/>
+                <mesh
+                    onPointerEnter={(e) => { toggleEnter(true) }}
+                    onPointerLeave={(e) => { toggleEnter(false) }}
+                >
+                    <tubeGeometry args={[x_t_path, 30, 0.015, 8, false]} />
+                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
+                    {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
+                </mesh>
+
+                <mesh position={[osaka_xyz.x, osaka_xyz.y, osaka_xyz.z]}>
+                    <sphereBufferGeometry args={[0.018, 32, 32]} />
                     <meshBasicMaterial color="red"></meshBasicMaterial>
+                </mesh>
+
+                <mesh
+                    onPointerEnter={(e) => { toggleEnter(true) }}
+                    onPointerLeave={(e) => { toggleEnter(false) }}
+                >
+                    <tubeGeometry args={[t_o_path, 30, 0.015, 8, false]} />
+                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
+                    {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
                 </mesh>
 
                 <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
-                    <sphereBufferGeometry args={[0.0125, 32, 32]} />
-                    <meshBasicMaterial color="red"></meshBasicMaterial>
+                    <sphereBufferGeometry args={[0.018, 32, 32]} />
+                    <meshBasicMaterial color="#427ddb"></meshBasicMaterial>
+                </mesh>
+
+                <mesh
+                    onPointerEnter={(e) => { toggleEnter(true) }}
+                    onPointerLeave={(e) => { toggleEnter(false) }}
+                >
+                    <tubeGeometry args={[x_v_path, 30, 0.015, 8, false]} />
+                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
+                    {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
                 </mesh>
 
                 <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
-                    <sphereBufferGeometry args={[0.0125, 32, 32]} />
-                    <meshBasicMaterial color="red"></meshBasicMaterial>
+                    <sphereBufferGeometry args={[0.018, 32, 32]} />
+                    <meshBasicMaterial color="#427ddb"></meshBasicMaterial>
                 </mesh>
 
                 <mesh>
-                    <tubeGeometry args={[v_s_path, 20, 0.01, 8, false]}/>
-                    <meshBasicMaterial color="red"></meshBasicMaterial>
+                    <tubeGeometry args={[v_s_path, 30, 0.015, 8, false]} />
+                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
                 </mesh>
             </mesh>
 
