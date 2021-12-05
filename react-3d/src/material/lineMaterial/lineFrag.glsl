@@ -1,8 +1,19 @@
-varying vec2 vUv;
-uniform float time;
+`
+uniform vec3 diffuse;
+uniform float opacity;
+uniform float time; // added time uniform
+uniform float dashSize;
+uniform float gapSize;
+uniform float dotSize;
+varying float vLineDistance;
+  
 void main() {
-    float dash = sin(vUv.x*50 - time);
-     if (dash < 0) discard;
+ float totalSize = dashSize + gapSize;
+ float modulo = mod( vLineDistance - time, totalSize ); // time added to vLineDistance
+ float dotDistance = dashSize + (gapSize * .5) - (dotSize * .5);
+  
+ if ( modulo > dashSize && mod(modulo, dotDistance) > dotSize ) { discard; }
 
-     color = vec4(vUv.x, 0, 0, 1);
+ gl_FragColor = vec4( diffuse, opacity );
 }
+`

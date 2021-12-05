@@ -1,12 +1,17 @@
-import { useLoader, useFrame } from "@react-three/fiber";
-import React, { useRef, PointerEvent } from "react";
+import { useLoader, useFrame, extend } from "@react-three/fiber";
+import React, { useRef, PointerEvent, useMemo } from "react";
 import * as THREE from "three";
 import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
 import EarthNightMap from "../../assets/textures/8k_earth_nightmap.jpg"
 import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
 import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
-import { OrbitControls, Stars, Tube } from "@react-three/drei";
+import { OrbitControls, shaderMaterial, Stars, Tube } from "@react-three/drei";
+import { ShaderMaterial } from "three";
+import lineVertex from "../../material/lineMaterial/lineVertex.glsl"
+import lineFrag from '../../material/lineMaterial/lineFrag.glsl'
+
+import glsl from 'babel-plugin-glsl/macro'
 
 export function Earth(params) {
     const [dayMap, nightMap, normalMap, specularMap, cloudsMap] = useLoader(
@@ -64,7 +69,7 @@ export function Earth(params) {
     const tokyo_xyz = {
         x: earth_r * Math.cos(tokyo.lng) * Math.cos(tokyo.lat),
         y: earth_r * Math.sin(tokyo.lat),
-        z: earth_r * Math.sin(tokyo.lng) * Math.cos(tokyo.lat) 
+        z: earth_r * Math.sin(tokyo.lng) * Math.cos(tokyo.lat)
     }
 
     const osaka = {
@@ -99,12 +104,41 @@ export function Earth(params) {
 
     useFrame(({ clock }) => {
         if (!isEnter) {
-            const elapsedTime = clock.getElapsedTime();
-
             earthRef.current.rotation.y += 0.005;
             cloudsRef.current.rotation.y += 0.005;
         }
     });
+
+    const uniforms = useMemo(() => ({
+        time: { value: 0.0 },
+        resolution: { value: new THREE.Vector4() }
+    }, []))
+
+    const MovingDashMaterial = shaderMaterial(
+        uniforms,
+        // vertex shader
+        glsl`
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        // fragment shader
+        glsl`
+          varying vec2 vUv;
+          uniform float time;
+          
+          void main() {
+            float dash = sin(vUv.x*50. - time);
+          
+          if(dash<0.) discard;
+        
+          gl_FragColor = vec4( vUv.x,0.,0.0,1. );
+          }
+        `
+    )
+    extend({MovingDashMaterial})
 
     function toggleEnter(e) {
         isEnter = e;
@@ -185,8 +219,38 @@ export function Earth(params) {
                     onPointerLeave={(e) => { toggleEnter(false) }}
                 >
                     <tubeGeometry args={[x_t_path, 30, 0.013, 8, false]} />
-                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
-                    {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
+                    <movingDashMaterial attach="material" color="hotpink" time={1}></movingDashMaterial>
+                    {/* <meshBasicMaterial color="#42cbfc"></meshBasicMaterial> */}
+                    {/* <shaderMaterial
+                        args={[{
+                            extensions: {
+                                derivatives: "extension GL_OES_standard_derivatives : enable"
+                            },
+                            side: THREE.DoubleSide,
+                            uniforms,
+                            vertexShader: `
+	                        uniform vec2 resolution;
+                            varying vec2 vUv;
+
+	                        void main()	{
+                                vUv = vec2(position.x, position.y);
+	                        	gl_Position = vec4( position, 1.0 );
+	                        }
+                            `,
+                            fragmentShader: `
+                            varying vec2 vUv;
+                            uniform float time;
+                              
+                            void main() {
+                             float dash = sin(vUv.x*50. - time);
+                              
+                             if(dash<0.) discard;
+                            
+                             gl_FragColor = vec4( vUv.x,0.,0.0,1. );
+                            }
+                            `,
+                        }]}
+                    ></shaderMaterial> */}
                 </mesh>
 
                 <mesh position={[osaka_xyz.x, osaka_xyz.y, osaka_xyz.z]}>

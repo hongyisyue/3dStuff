@@ -16,7 +16,12 @@ function App() {
       <Canvas>
         <Suspense fallback={null}>
           <Earth/>
-          <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
+          <OrbitControls
+            enablePan={true}
+            enableZoom={true}
+            enableRotate={true}
+            zoomSpeed={0.1}
+          />
         </Suspense>
       </Canvas>
     </CanvasContainer>
