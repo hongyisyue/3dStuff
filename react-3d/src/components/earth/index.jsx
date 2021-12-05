@@ -172,7 +172,7 @@ export function Earth(params) {
                 />
                 <mesh position={[xiamen_xyz.x, xiamen_xyz.y, xiamen_xyz.z]}>
                     <sphereBufferGeometry args={[0.018, 32, 32]} />
-                    <meshBasicMaterial color="#427ddb"></meshBasicMaterial>
+                    <meshBasicMaterial color="red"></meshBasicMaterial>
                 </mesh>
 
                 <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
@@ -184,7 +184,7 @@ export function Earth(params) {
                     onPointerEnter={(e) => { toggleEnter(true) }}
                     onPointerLeave={(e) => { toggleEnter(false) }}
                 >
-                    <tubeGeometry args={[x_t_path, 30, 0.015, 8, false]} />
+                    <tubeGeometry args={[x_t_path, 30, 0.013, 8, false]} />
                     <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
                     {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
                 </mesh>
@@ -198,28 +198,28 @@ export function Earth(params) {
                     onPointerEnter={(e) => { toggleEnter(true) }}
                     onPointerLeave={(e) => { toggleEnter(false) }}
                 >
-                    <tubeGeometry args={[t_o_path, 30, 0.015, 8, false]} />
+                    <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
                     <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
                     {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
                 </mesh>
 
                 <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
                     <sphereBufferGeometry args={[0.018, 32, 32]} />
-                    <meshBasicMaterial color="#427ddb"></meshBasicMaterial>
+                    <meshBasicMaterial color="red"></meshBasicMaterial>
                 </mesh>
 
                 <mesh
                     onPointerEnter={(e) => { toggleEnter(true) }}
                     onPointerLeave={(e) => { toggleEnter(false) }}
                 >
-                    <tubeGeometry args={[x_v_path, 30, 0.015, 8, false]} />
+                    <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
                     <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
                     {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
                 </mesh>
 
                 <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
                     <sphereBufferGeometry args={[0.018, 32, 32]} />
-                    <meshBasicMaterial color="#427ddb"></meshBasicMaterial>
+                    <meshBasicMaterial color="red"></meshBasicMaterial>
                 </mesh>
 
                 <mesh>
