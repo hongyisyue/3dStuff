@@ -1,5 +1,5 @@
 import { useLoader, useFrame, extend } from "@react-three/fiber";
-import React, { useRef, PointerEvent, useMemo } from "react";
+import React, { useRef, PointerEvent, useMemo, useState } from "react";
 import * as THREE from "three";
 import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
 import EarthNightMap from "../../assets/textures/8k_earth_nightmap.jpg"
@@ -8,8 +8,6 @@ import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
 import { OrbitControls, shaderMaterial, Stars, Tube } from "@react-three/drei";
 import { ShaderMaterial } from "three";
-import lineVertex from "../../material/lineMaterial/lineVertex.glsl"
-import lineFrag from '../../material/lineMaterial/lineFrag.glsl'
 
 import glsl from 'babel-plugin-glsl/macro'
 
@@ -21,8 +19,6 @@ export function Earth(params) {
 
     const earthRef = useRef();
     const cloudsRef = useRef();
-    const light = useRef();
-    const obj = useRef();
 
     let isEnter = false;
     let isPressing = false;
@@ -102,26 +98,31 @@ export function Earth(params) {
         return points;
     }
 
-    useFrame(({ clock }) => {
+    let [time, setTime] = useState(0.0);
+    
+    useFrame(() => {
+        setTime(time + 0.2);
+        // time += 1;
+        // setUniforms({
+        //     time: time,
+        //     // resolution: { value: new THREE.Vector4() }
+        // });
+        
         if (!isEnter) {
             earthRef.current.rotation.y += 0.005;
             cloudsRef.current.rotation.y += 0.005;
         }
     });
 
-    const uniforms = useMemo(() => ({
-        time: { value: 0.0 },
-        resolution: { value: new THREE.Vector4() }
-    }, []))
-
-    const MovingDashMaterial = shaderMaterial(
-        uniforms,
+    let MovingDashMaterial = shaderMaterial(
+        {time},
         // vertex shader
         glsl`
           varying vec2 vUv;
           void main() {
             vUv = uv;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+            gl_Position = projectionMatrix * modelViewPosition;
           }
         `,
         // fragment shader
@@ -130,11 +131,11 @@ export function Earth(params) {
           uniform float time;
           
           void main() {
-            float dash = sin(vUv.x*50. - time);
+            float dash = sin(vUv.x * 50. - time);
           
-          if(dash<0.) discard;
+            if(dash<0.) discard;
         
-          gl_FragColor = vec4( vUv.x,0.,0.0,1. );
+            gl_FragColor = vec4( vUv.x,0.,0.0,1. );
           }
         `
     )
@@ -198,9 +199,8 @@ export function Earth(params) {
             <mesh ref={earthRef} position={[2, 0, 0]}>
                 <sphereGeometry args={[1.3, 64, 64]} />
                 <meshPhongMaterial specularMap={specularMap} />
-                <meshStandardMaterial
+                <meshPhongMaterial
                     map={dayMap}
-                    normalMap={normalMap}
                     metalness={0.4}
                     roughness={0.7}
                 />
@@ -219,38 +219,11 @@ export function Earth(params) {
                     onPointerLeave={(e) => { toggleEnter(false) }}
                 >
                     <tubeGeometry args={[x_t_path, 30, 0.013, 8, false]} />
-                    <movingDashMaterial attach="material" color="hotpink" time={1}></movingDashMaterial>
-                    {/* <meshBasicMaterial color="#42cbfc"></meshBasicMaterial> */}
-                    {/* <shaderMaterial
-                        args={[{
-                            extensions: {
-                                derivatives: "extension GL_OES_standard_derivatives : enable"
-                            },
-                            side: THREE.DoubleSide,
-                            uniforms,
-                            vertexShader: `
-	                        uniform vec2 resolution;
-                            varying vec2 vUv;
-
-	                        void main()	{
-                                vUv = vec2(position.x, position.y);
-	                        	gl_Position = vec4( position, 1.0 );
-	                        }
-                            `,
-                            fragmentShader: `
-                            varying vec2 vUv;
-                            uniform float time;
-                              
-                            void main() {
-                             float dash = sin(vUv.x*50. - time);
-                              
-                             if(dash<0.) discard;
-                            
-                             gl_FragColor = vec4( vUv.x,0.,0.0,1. );
-                            }
-                            `,
-                        }]}
-                    ></shaderMaterial> */}
+                    <movingDashMaterial
+                        attach="material"
+                        time={time}
+                    >
+                    </movingDashMaterial>
                 </mesh>
 
                 <mesh position={[osaka_xyz.x, osaka_xyz.y, osaka_xyz.z]}>
