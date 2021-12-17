@@ -137,7 +137,7 @@ export function Earth(params) {
           
             if(dash<0.) discard;
         
-            gl_FragColor = vec4( vUv.x,0.,0.0,1. );
+            gl_FragColor = vec4( vUv.y,0.7,1.0,1.0 );
           }
         `
     )
@@ -246,14 +246,26 @@ export function Earth(params) {
                     <sphereBufferGeometry args={[0.018, 32, 32]} />
                     <meshBasicMaterial color="red"></meshBasicMaterial>
                 </mesh>
-
+                
                 <mesh
                     onPointerEnter={(e) => { toggleEnter(true) }}
                     onPointerLeave={(e) => { toggleEnter(false) }}
                 >
                     <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
-                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
+                    <movingDashMaterial
+                        attach="material"
+                        time={time}
+                    >
+                    </movingDashMaterial>
                 </mesh>
+
+                {/* <mesh
+                    onPointerEnter={(e) => { toggleEnter(true) }}
+                    onPointerLeave={(e) => { toggleEnter(false) }}
+                >
+                    <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
+                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
+                </mesh> */}
 
                 <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
                     <sphereBufferGeometry args={[0.018, 32, 32]} />
