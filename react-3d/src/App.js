@@ -1,8 +1,8 @@
-import { Suspense } from 'react';
-import styled from 'styled-components';
 import './App.css';
-import { Earth } from './components/earth';
+import styled from 'styled-components';
 import { Canvas } from '@react-three/fiber';
+import { Earth } from './components/earth';
+import { Suspense } from 'react';
 import { OrbitControls} from "@react-three/drei";
 
 const CanvasContainer = styled.div`

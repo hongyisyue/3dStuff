@@ -1,21 +1,18 @@
 import { useLoader, useFrame, extend } from "@react-three/fiber";
-import React, { useRef, PointerEvent, useMemo, useState } from "react";
+import React, { useRef, PointerEvent, useState } from "react";
 import * as THREE from "three";
 import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
-import EarthNightMap from "../../assets/textures/8k_earth_nightmap.jpg"
 import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
 import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
-import { OrbitControls, shaderMaterial, Stars, Tube } from "@react-three/drei";
+import { OrbitControls, shaderMaterial, Stars } from "@react-three/drei";
 import { ShaderMaterial } from "three";
+import { TextureLoader } from "three";
 
 import glsl from 'babel-plugin-glsl/macro'
 
 export function Earth(params) {
-    const [dayMap, nightMap, normalMap, specularMap, cloudsMap] = useLoader(
-        THREE.TextureLoader,
-        [EarthDayMap, EarthNightMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap]
-    );
+
 
     const earthRef = useRef();
     const cloudsRef = useRef();
@@ -99,7 +96,12 @@ export function Earth(params) {
     }
 
     let [time, setTime] = useState(0.0);
-    
+
+    const [dayMap, normalMap, specularMap, cloudsMap] = useLoader(
+        TextureLoader,
+        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap]
+      );
+
     useFrame(() => {
         setTime(time + 0.2);
         // time += 1;
@@ -107,7 +109,7 @@ export function Earth(params) {
         //     time: time,
         //     // resolution: { value: new THREE.Vector4() }
         // });
-        
+
         if (!isEnter) {
             earthRef.current.rotation.y += 0.005;
             cloudsRef.current.rotation.y += 0.005;
@@ -115,23 +117,23 @@ export function Earth(params) {
     });
 
     let MovingDashMaterial = shaderMaterial(
-        {time},
+        { time },
         // vertex shader
         glsl`
-          varying vec2 vUv;
-          void main() {
-            vUv = uv;
-            vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-            gl_Position = projectionMatrix * modelViewPosition;
-          }
-        `,
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+                gl_Position = projectionMatrix * modelViewPosition;
+            }
+            `,
         // fragment shader
         glsl`
-          varying vec2 vUv;
-          uniform float time;
-          
-          void main() {
-            float dash = sin(vUv.x * 50. - time);
+            varying vec2 vUv;
+            uniform float time;
+            
+            void main() {
+                float dash = sin(vUv.x * 50. - time);
           
             if(dash<0.) discard;
         
@@ -139,7 +141,7 @@ export function Earth(params) {
           }
         `
     )
-    extend({MovingDashMaterial})
+    extend({ MovingDashMaterial })
 
     function toggleEnter(e) {
         isEnter = e;
@@ -199,8 +201,9 @@ export function Earth(params) {
             <mesh ref={earthRef} position={[2, 0, 0]}>
                 <sphereGeometry args={[1.3, 64, 64]} />
                 <meshPhongMaterial specularMap={specularMap} />
-                <meshPhongMaterial
+                <meshStandardMaterial
                     map={dayMap}
+                    normalMap={normalMap}
                     metalness={0.4}
                     roughness={0.7}
                 />
@@ -237,7 +240,6 @@ export function Earth(params) {
                 >
                     <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
                     <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
-                    {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
                 </mesh>
 
                 <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
@@ -251,7 +253,6 @@ export function Earth(params) {
                 >
                     <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
                     <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
-                    {/* <lineDashedMaterial linewidth={0.1} dashSize={1} gapSize={1} scale={0.1}></lineDashedMaterial> */}
                 </mesh>
 
                 <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
