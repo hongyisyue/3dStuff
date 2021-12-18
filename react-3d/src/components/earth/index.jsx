@@ -5,7 +5,7 @@ import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
 import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
 import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
-import { OrbitControls, shaderMaterial, Stars, TransformControls } from "@react-three/drei";
+import { OrbitControls, shaderMaterial, Stars, TransformControls, TrackballControls } from "@react-three/drei";
 import { ShaderMaterial } from "three";
 import { TextureLoader } from "three";
 
@@ -174,7 +174,7 @@ export function Earth(params) {
     return (
         <>
 
-            <TransformControls mode="rotate" object={cloudsRef}>
+            {/* <TrackballControls mode="rotate" object={cloudsRef}> */}
                 <pointLight color="#fff6e6" position={[-20, 20, 15]} intensity={2} />
                 <pointLight color="#fff6e6" position={[20, 0, -15]} intensity={2} />
                 <pointLight color="#fff6e6" position={[-20, -20, -15]} intensity={1} />
@@ -189,6 +189,7 @@ export function Earth(params) {
                 />
 
                 <mesh ref={cloudsRef} position={[2, 0, 0]}>
+                    <TrackballControls/>
                     <sphereGeometry args={[earth_r + 0.05, 64, 64]} />
                     <meshPhongMaterial
                         map={cloudsMap}
@@ -277,7 +278,7 @@ export function Earth(params) {
                     </mesh>
                 </mesh>
 
-            </TransformControls>
+            {/* </TrackballControls> */}
 
         </>
 
