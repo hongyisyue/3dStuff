@@ -5,7 +5,7 @@ import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
 import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
 import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
-import { OrbitControls, shaderMaterial, Stars } from "@react-three/drei";
+import { OrbitControls, shaderMaterial, Stars, TransformControls } from "@react-three/drei";
 import { ShaderMaterial } from "three";
 import { TextureLoader } from "three";
 
@@ -13,8 +13,6 @@ import glsl from 'babel-plugin-glsl/macro'
 
 export function Earth(params) {
 
-
-    const earthRef = useRef();
     const cloudsRef = useRef();
 
     let isEnter = false;
@@ -23,7 +21,7 @@ export function Earth(params) {
     let lastX;
     let lastY;
 
-    const earth_r = 1.3;
+    const earth_r = 1.6;
 
     const xiamen = {
         lat: 24.4797 * Math.PI / 180,
@@ -100,7 +98,7 @@ export function Earth(params) {
     const [dayMap, normalMap, specularMap, cloudsMap] = useLoader(
         TextureLoader,
         [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap]
-      );
+    );
 
     useFrame(() => {
         setTime(time + 0.2);
@@ -111,7 +109,6 @@ export function Earth(params) {
         // });
 
         if (!isEnter) {
-            earthRef.current.rotation.y += 0.005;
             cloudsRef.current.rotation.y += 0.005;
         }
     });
@@ -165,10 +162,10 @@ export function Earth(params) {
         if (isPressing) {
             console.log('drag: ' + e.width);
             if (e.width < lastX) {
-                earthRef.current.rotation.y -= e.width * 0.03;
+                // earthRef.current.rotation.y -= e.width * 0.03;
                 cloudsRef.current.rotation.y -= e.width * 0.03;
             } else {
-                earthRef.current.rotation.y += e.width * 0.03;
+                // earthRef.current.rotation.y += e.width * 0.03;
                 cloudsRef.current.rotation.y += e.width * 0.03;
             }
         }
@@ -176,107 +173,111 @@ export function Earth(params) {
 
     return (
         <>
-            <pointLight color="#fff6e6" position={[-20, 20, 15]} intensity={2} />
-            <pointLight color="#fff6e6" position={[20, 0, -15]} intensity={2} />
-            <pointLight color="#fff6e6" position={[-20, -20, -15]} intensity={1} />
-            <pointLight color="#fff6e6" position={[20, 0, 15]} intensity={1} />
-            <Stars
-                radius={300}
-                depth={60}
-                count={20000}
-                factor={7}
-                saturation={0}
-                fade={true}
-            />
-            <mesh ref={cloudsRef} position={[2, 0, 0]}>
-                <sphereGeometry args={[1.35, 64, 64]} />
-                <meshPhongMaterial
-                    map={cloudsMap}
-                    opacity={0.4}
-                    depthWrite={true}
-                    transparent={true}
-                    side={THREE.DoubleSide}
+
+            <TransformControls mode="rotate" object={cloudsRef}>
+                <pointLight color="#fff6e6" position={[-20, 20, 15]} intensity={2} />
+                <pointLight color="#fff6e6" position={[20, 0, -15]} intensity={2} />
+                <pointLight color="#fff6e6" position={[-20, -20, -15]} intensity={1} />
+                <pointLight color="#fff6e6" position={[20, 0, 15]} intensity={1} />
+                <Stars
+                    radius={300}
+                    depth={60}
+                    count={20000}
+                    factor={7}
+                    saturation={0}
+                    fade={true}
                 />
-            </mesh>
-            <mesh ref={earthRef} position={[2, 0, 0]}>
-                <sphereGeometry args={[1.3, 64, 64]} />
-                <meshPhongMaterial specularMap={specularMap} />
-                <meshStandardMaterial
-                    map={dayMap}
-                    normalMap={normalMap}
-                    metalness={0.4}
-                    roughness={0.7}
-                />
-                <mesh position={[xiamen_xyz.x, xiamen_xyz.y, xiamen_xyz.z]}>
-                    <sphereBufferGeometry args={[0.018, 32, 32]} />
-                    <meshBasicMaterial color="red"></meshBasicMaterial>
+
+                <mesh ref={cloudsRef} position={[2, 0, 0]}>
+                    <sphereGeometry args={[earth_r + 0.05, 64, 64]} />
+                    <meshPhongMaterial
+                        map={cloudsMap}
+                        opacity={0.45}
+                        depthWrite={true}
+                        transparent={true}
+                        side={THREE.DoubleSide}
+                    />
+                    <mesh position={[0, 0, 0]}>
+                        <sphereGeometry args={[earth_r, 64, 64]} />
+                        <meshPhongMaterial specularMap={specularMap} />
+                        <meshStandardMaterial
+                            map={dayMap}
+                            normalMap={normalMap}
+                            metalness={0.4}
+                            roughness={0.7}
+                        />
+                        <mesh position={[xiamen_xyz.x, xiamen_xyz.y, xiamen_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+
+                        <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => { toggleEnter(true) }}
+                            onPointerLeave={(e) => { toggleEnter(false) }}
+                        >
+                            <tubeGeometry args={[x_t_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[osaka_xyz.x, osaka_xyz.y, osaka_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => { toggleEnter(true) }}
+                            onPointerLeave={(e) => { toggleEnter(false) }}
+                        >
+                            <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => { toggleEnter(true) }}
+                            onPointerLeave={(e) => { toggleEnter(false) }}
+                        >
+                            <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => { toggleEnter(true) }}
+                            onPointerLeave={(e) => { toggleEnter(false) }}
+                        >
+                            <tubeGeometry args={[v_s_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+                    </mesh>
                 </mesh>
 
-                <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
-                    <sphereBufferGeometry args={[0.018, 32, 32]} />
-                    <meshBasicMaterial color="red"></meshBasicMaterial>
-                </mesh>
-
-                <mesh
-                    onPointerEnter={(e) => { toggleEnter(true) }}
-                    onPointerLeave={(e) => { toggleEnter(false) }}
-                >
-                    <tubeGeometry args={[x_t_path, 30, 0.013, 8, false]} />
-                    <movingDashMaterial
-                        attach="material"
-                        time={time}
-                    >
-                    </movingDashMaterial>
-                </mesh>
-
-                <mesh position={[osaka_xyz.x, osaka_xyz.y, osaka_xyz.z]}>
-                    <sphereBufferGeometry args={[0.018, 32, 32]} />
-                    <meshBasicMaterial color="red"></meshBasicMaterial>
-                </mesh>
-
-                <mesh
-                    onPointerEnter={(e) => { toggleEnter(true) }}
-                    onPointerLeave={(e) => { toggleEnter(false) }}
-                >
-                    <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
-                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
-                </mesh>
-
-                <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
-                    <sphereBufferGeometry args={[0.018, 32, 32]} />
-                    <meshBasicMaterial color="red"></meshBasicMaterial>
-                </mesh>
-                
-                <mesh
-                    onPointerEnter={(e) => { toggleEnter(true) }}
-                    onPointerLeave={(e) => { toggleEnter(false) }}
-                >
-                    <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
-                    <movingDashMaterial
-                        attach="material"
-                        time={time}
-                    >
-                    </movingDashMaterial>
-                </mesh>
-
-                {/* <mesh
-                    onPointerEnter={(e) => { toggleEnter(true) }}
-                    onPointerLeave={(e) => { toggleEnter(false) }}
-                >
-                    <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
-                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
-                </mesh> */}
-
-                <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
-                    <sphereBufferGeometry args={[0.018, 32, 32]} />
-                    <meshBasicMaterial color="red"></meshBasicMaterial>
-                </mesh>
-
-                <mesh>
-                    <tubeGeometry args={[v_s_path, 30, 0.015, 8, false]} />
-                    <meshBasicMaterial color="#42cbfc"></meshBasicMaterial>
-                </mesh>
-            </mesh>
+            </TransformControls>
 
         </>
 
