@@ -78,6 +78,17 @@ export function Earth(params) {
     const x_t_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, tokyo_xyz));
     const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
 
+    const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz));
+
+    // returns a point of the end of the pole
+    // p1 should always be the center point of the earth
+    function getLineEndPonit(p1, p2) {
+        const v3 = new THREE.Vector3(p2.x + (p2.x - p1.x)/4 , p2.y + (p2.y - p1.y)/4, p2.z + (p2.z - p1.z)/4);
+
+        return v3;
+    }
+
+    // returns an arry of points of the curve
     function getCurve(p1, p2) {
         const v1 = new THREE.Vector3(p1.x, p1.y, p1.z);
         const v2 = new THREE.Vector3(p2.x, p2.y, p2.z);
@@ -158,6 +169,8 @@ export function Earth(params) {
             console.log(lastX);
         }
     }
+
+    // depreciated
     function rotate(e) {
         if (isPressing) {
             console.log('drag: ' + e.width);
@@ -204,8 +217,8 @@ export function Earth(params) {
                         <meshStandardMaterial
                             map={dayMap}
                             normalMap={normalMap}
-                            metalness={0.4}
-                            roughness={0.7}
+                            metalness={0.6}
+                            roughness={0.5}
                         />
                         <mesh position={[xiamen_xyz.x, xiamen_xyz.y, xiamen_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
@@ -216,6 +229,17 @@ export function Earth(params) {
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
                         </mesh>
+                        
+                        <mesh>
+                            <tubeGeometry args={[xiamen_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                            {/* <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial> */}
+                        </mesh>
+                        
                         <mesh
                             onPointerEnter={(e) => { toggleEnter(true) }}
                             onPointerLeave={(e) => { toggleEnter(false) }}
