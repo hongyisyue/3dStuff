@@ -8,12 +8,20 @@ import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
 import { OrbitControls, shaderMaterial, Stars, TransformControls, TrackballControls } from "@react-three/drei";
 import { ShaderMaterial } from "three";
 import { TextureLoader } from "three";
+import boldUrl from '../../assets/fonts/bold.blob';
 
 import glsl from 'babel-plugin-glsl/macro'
 
 export function Earth(params) {
 
     const cloudsRef = useRef();
+
+    const font = useLoader(THREE.FontLoader, boldUrl);
+    const textOption = {
+        font,
+        size: 0.1,
+        height: 0.05
+    }
 
     let isEnter = false;
     let isPressing = false;
@@ -79,7 +87,15 @@ export function Earth(params) {
     const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
 
     const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz));
+    const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
 
+
+    // returns a point for where the text geometry should start
+    // so that the center of the text will be at point p
+    function getTextStart(p) {
+
+    }
+    
     // returns a point of the end of the pole
     // p1 should always be the center point of the earth
     function getLineEndPonit(p1, p2) {
@@ -232,12 +248,17 @@ export function Earth(params) {
                         
                         <mesh>
                             <tubeGeometry args={[xiamen_pole, 30, 0.013, 8, false]}/>
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
                             {/* <movingDashMaterial
                                 attach="material"
                                 time={time}
                             >
                             </movingDashMaterial> */}
+                        </mesh>
+                        <mesh position={xiamen_pole_end} rotation={[0, -Math.PI/1.2, 0]}>
+                            {/* <planeGeometry args={[0.3, 0.6]}/> */}
+                            <textGeometry args={['HOME', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
                         
                         <mesh
