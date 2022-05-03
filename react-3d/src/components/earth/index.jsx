@@ -86,8 +86,14 @@ export function Earth(params) {
     const x_t_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, tokyo_xyz));
     const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
 
-    const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz));
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
+    const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, xiamen_pole_end);
+
+    const vancouver_pole_end = getLineEndPonit({x:0, y:0, z:0}, vancouver_xyz);
+    const vancouver_pole = new THREE.LineCurve3({x:0, y:0, z:0}, vancouver_pole_end);
+
+    const stoon_pole_end = getLineEndPonit({x:0, y:0, z:0}, stoon_xyz);
+    const stoon_pole = new THREE.LineCurve3({x:0, y:0, z:0}, stoon_pole_end);
 
 
     // returns a point for where the text geometry should start
@@ -236,24 +242,14 @@ export function Earth(params) {
                             metalness={0.6}
                             roughness={0.5}
                         />
+
                         <mesh position={[xiamen_xyz.x, xiamen_xyz.y, xiamen_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
                         </mesh>
-
-                        <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
-                        
                         <mesh>
                             <tubeGeometry args={[xiamen_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
-                            {/* <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial> */}
                         </mesh>
                         <mesh position={xiamen_pole_end} rotation={[0, -Math.PI/1.2, 0]}>
                             {/* <planeGeometry args={[0.3, 0.6]}/> */}
@@ -261,6 +257,11 @@ export function Earth(params) {
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
                         
+                       
+                        <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
                         <mesh
                             onPointerEnter={(e) => { toggleEnter(true) }}
                             onPointerLeave={(e) => { toggleEnter(false) }}
@@ -289,9 +290,18 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
+
                         <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[vancouver_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh position={vancouver_pole_end} rotation={[0, -Math.PI/2.5, 0]}>
+                            <textGeometry args={['2NDHOME', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
                         <mesh
                             onPointerEnter={(e) => { toggleEnter(true) }}
@@ -308,6 +318,14 @@ export function Earth(params) {
                         <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[stoon_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh position={stoon_pole_end} rotation={[0, -Math.PI/2.5, 0]}>
+                            <textGeometry args={['UNIVERSITY', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
                         <mesh
                             onPointerEnter={(e) => { toggleEnter(true) }}
