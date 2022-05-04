@@ -63,7 +63,7 @@ export function Earth(params) {
 
     const la = {
         lat: 34.0523 * Math.PI / 180,
-        lng: -118.2436 * Math.PI / 180 - 115 * Math.PI / 180
+        lng: -118.2436 * Math.PI / 180 - 125 * Math.PI / 180
     }
     const la_xyz = getPointXYZ(la);
 
@@ -92,6 +92,7 @@ export function Earth(params) {
     const s_t_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, toronto_xyz));
     const s_b_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, banff_xyz));
     const x_j_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, jinbian_xyz));
+    const s_l_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, la_xyz));
 
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
     const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, xiamen_pole_end);
@@ -314,6 +315,19 @@ export function Earth(params) {
                             onPointerLeave={(e) => { toggleEnter(false) }}
                         >
                             <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[la_xyz.x, la_xyz.y, la_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[s_l_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
                                 attach="material"
                                 time={time}
