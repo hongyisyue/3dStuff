@@ -35,56 +35,62 @@ export function Earth(params) {
         lat: 24.4797 * Math.PI / 180,
         lng: 118.0818 * Math.PI / 180 + 125 * Math.PI / 180,
     }
-    const xiamen_xyz = {
-        x: earth_r * Math.cos(xiamen.lng) * Math.cos(xiamen.lat),
-        y: earth_r * Math.sin(xiamen.lat),
-        z: earth_r * Math.sin(xiamen.lng) * Math.cos(xiamen.lat)
-    }
+    const xiamen_xyz = getPointXYZ(xiamen);
 
     const vancouver = {
         lat: 49.2462 * Math.PI / 180,
         lng: -123.1162 * Math.PI / 180 - 115 * Math.PI / 180
     }
-    const vancouver_xyz = {
-        x: earth_r * Math.cos(vancouver.lng) * Math.cos(vancouver.lat),
-        y: earth_r * Math.sin(vancouver.lat),
-        z: earth_r * Math.sin(vancouver.lng) * Math.cos(vancouver.lat)
+    const vancouver_xyz = getPointXYZ(vancouver);
+
+    const toronto = {
+        lat: 43.6510 * Math.PI /180,
+        lng: -79.3470 * Math.PI / 180 + 160 * Math.PI / 180
     }
+    const toronto_xyz = getPointXYZ(toronto);
+
+    const banff = {
+        lat: 51.1802 * Math.PI / 180,
+        lng: -115.5657 * Math.PI / 180 + 227 * Math.PI / 180
+    }
+    const banff_xyz = getPointXYZ(banff);
+
+    const jinbian = {
+        lay: 11.5621 * Math.PI / 180, 
+        lng: 104.8885 * Math.PI / 180 + 115 * Math.PI / 180
+    }
+    const jinbian_xyz = getPointXYZ(jinbian);
+
+    const la = {
+        lat: 34.0523 * Math.PI / 180,
+        lng: -118.2436 * Math.PI / 180 - 115 * Math.PI / 180
+    }
+    const la_xyz = getPointXYZ(la);
 
     const stoon = {
         lat: 52.1332 * Math.PI / 180,
-        lng: 106.6700 * Math.PI / 180
+        lng: -106.6700 * Math.PI / 180 + 210 * Math.PI / 180
     }
-    const stoon_xyz = {
-        x: earth_r * Math.cos(stoon.lng) * Math.cos(stoon.lat),
-        y: earth_r * Math.sin(stoon.lat),
-        z: earth_r * Math.sin(stoon.lng) * Math.cos(stoon.lat)
-    }
+    const stoon_xyz = getPointXYZ(stoon);
 
     const tokyo = {
         lat: 35.6528 * Math.PI / 180,
         lng: 139.8394 * Math.PI / 180 + 80 * Math.PI / 180
     }
-    const tokyo_xyz = {
-        x: earth_r * Math.cos(tokyo.lng) * Math.cos(tokyo.lat),
-        y: earth_r * Math.sin(tokyo.lat),
-        z: earth_r * Math.sin(tokyo.lng) * Math.cos(tokyo.lat)
-    }
+    const tokyo_xyz = getPointXYZ(tokyo);
 
     const osaka = {
         lat: 34.6723 * Math.PI / 180,
         lng: 135.4848 * Math.PI / 180 + 90 * Math.PI / 180
     }
-    const osaka_xyz = {
-        x: earth_r * Math.cos(osaka.lng) * Math.cos(osaka.lat),
-        y: earth_r * Math.sin(osaka.lat),
-        z: earth_r * Math.sin(osaka.lng) * Math.cos(osaka.lat)
-    }
+    const osaka_xyz = getPointXYZ(osaka);
 
     const x_v_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, vancouver_xyz));
-    const v_s_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, stoon_xyz));
+    const s_v_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, vancouver_xyz));
     const x_t_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, tokyo_xyz));
     const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
+    const s_t_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, toronto_xyz));
+    const s_b_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, banff_xyz));
 
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
     const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, xiamen_pole_end);
@@ -95,6 +101,15 @@ export function Earth(params) {
     const stoon_pole_end = getLineEndPonit({x:0, y:0, z:0}, stoon_xyz);
     const stoon_pole = new THREE.LineCurve3({x:0, y:0, z:0}, stoon_pole_end);
 
+
+    // returns a point with lat & lng to a vertor3 point
+    function getPointXYZ(p) {
+        return {
+            x: earth_r * Math.cos(p.lng) * Math.cos(p.lat),
+            y: earth_r * Math.sin(p.lat),
+            z: earth_r * Math.sin(p.lng) * Math.cos(p.lat)
+        }
+    }
 
     // returns a point for where the text geometry should start
     // so that the center of the text will be at point p
@@ -290,6 +305,31 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
+                        <mesh position={[banff_xyz.x, banff_xyz.y, banff_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[s_b_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[toronto_xyz.x, toronto_xyz.y, toronto_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[s_t_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
 
                         <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
@@ -331,7 +371,7 @@ export function Earth(params) {
                             onPointerEnter={(e) => { toggleEnter(true) }}
                             onPointerLeave={(e) => { toggleEnter(false) }}
                         >
-                            <tubeGeometry args={[v_s_path, 30, 0.013, 8, false]} />
+                            <tubeGeometry args={[s_v_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
                                 attach="material"
                                 time={time}
