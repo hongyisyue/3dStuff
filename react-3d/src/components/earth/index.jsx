@@ -56,8 +56,8 @@ export function Earth(params) {
     const banff_xyz = getPointXYZ(banff);
 
     const jinbian = {
-        lay: 11.5621 * Math.PI / 180, 
-        lng: 104.8885 * Math.PI / 180 + 115 * Math.PI / 180
+        lat: 11.5621 * Math.PI / 180, 
+        lng: 104.8885 * Math.PI / 180 + 150 * Math.PI / 180
     }
     const jinbian_xyz = getPointXYZ(jinbian);
 
@@ -91,6 +91,7 @@ export function Earth(params) {
     const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
     const s_t_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, toronto_xyz));
     const s_b_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, banff_xyz));
+    const x_j_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, jinbian_xyz));
 
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
     const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, xiamen_pole_end);
@@ -271,7 +272,22 @@ export function Earth(params) {
                             <textGeometry args={['HOME', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
-                        
+
+                        <mesh position={[jinbian_xyz.x, jinbian_xyz.y, jinbian_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => { toggleEnter(true) }}
+                            onPointerLeave={(e) => { toggleEnter(false) }}
+                        >
+                            <tubeGeometry args={[x_j_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
                        
                         <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
