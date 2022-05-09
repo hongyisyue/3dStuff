@@ -15,6 +15,7 @@ import glsl from 'babel-plugin-glsl/macro'
 export function Earth(params) {
 
     const cloudsRef = useRef();
+    const earthRef = useRef();
 
     const font = useLoader(THREE.FontLoader, boldUrl);
     const textOption = {
@@ -24,10 +25,6 @@ export function Earth(params) {
     }
 
     let isEnter = false;
-    let isPressing = false;
-
-    let lastX;
-    let lastY;
 
     const earth_r = 1.6;
 
@@ -159,6 +156,7 @@ export function Earth(params) {
         // });
 
         if (!isEnter) {
+            console.log(isEnter);
             cloudsRef.current.rotation.y += 0.005;
         }
     });
@@ -191,41 +189,42 @@ export function Earth(params) {
     extend({ MovingDashMaterial })
 
     function toggleEnter(e) {
+        console.log(isEnter);
         isEnter = e;
+        console.log(isEnter);
     }
 
-    function togglePress(e) {
-        if (isPressing) {
-            console.log('up');
-            isPressing = !isPressing;
-            lastX = undefined;
-            lastY = undefined;
-        } else {
-            console.log('down -> lastX');
-            isPressing = true
-            lastX = e.width;
-            lastY = e.height;
-            console.log(lastX);
-        }
-    }
+    // function togglePress(e) {
+    //     if (isPressing) {
+    //         console.log('up');
+    //         isPressing = !isPressing;
+    //         lastX = undefined;
+    //         lastY = undefined;
+    //     } else {
+    //         console.log('down -> lastX');
+    //         isPressing = true
+    //         lastX = e.width;
+    //         lastY = e.height;
+    //         console.log(lastX);
+    //     }
+    // }
 
     // depreciated
-    function rotate(e) {
-        if (isPressing) {
-            console.log('drag: ' + e.width);
-            if (e.width < lastX) {
-                // earthRef.current.rotation.y -= e.width * 0.03;
-                cloudsRef.current.rotation.y -= e.width * 0.03;
-            } else {
-                // earthRef.current.rotation.y += e.width * 0.03;
-                cloudsRef.current.rotation.y += e.width * 0.03;
-            }
-        }
-    }
+    // function rotate(e) {
+    //     if (isPressing) {
+    //         console.log('drag: ' + e.width);
+    //         if (e.width < lastX) {
+    //             earthRef.current.rotation.y -= e.width * 0.03;
+    //             cloudsRef.current.rotation.y -= e.width * 0.03;
+    //         } else {
+    //             earthRef.current.rotation.y += e.width * 0.03;
+    //             cloudsRef.current.rotation.y += e.width * 0.03;
+    //         }
+    //     }
+    // }
 
     return (
         <>
-
             {/* <TrackballControls mode="rotate" object={cloudsRef}> */}
                 <pointLight color="#fff6e6" position={[-20, 20, 15]} intensity={2} />
                 <pointLight color="#fff6e6" position={[20, 0, -15]} intensity={2} />
@@ -240,7 +239,8 @@ export function Earth(params) {
                     fade={true}
                 />
 
-                <mesh ref={cloudsRef} position={[2, 0, 0]}>
+                <mesh
+                    onPointerEnter={(e) => { toggleEnter(true) }} ref={cloudsRef} position={[2, 0, 0]}>
                     <TrackballControls/>
                     <sphereGeometry args={[earth_r + 0.05, 64, 64]} />
                     <meshPhongMaterial
@@ -250,7 +250,7 @@ export function Earth(params) {
                         transparent={true}
                         side={THREE.DoubleSide}
                     />
-                    <mesh position={[0, 0, 0]}>
+                    <mesh ref={earthRef} position={[0, 0, 0]}>
                         <sphereGeometry args={[earth_r, 64, 64]} />
                         <meshPhongMaterial specularMap={specularMap} />
                         <meshStandardMaterial
@@ -268,7 +268,11 @@ export function Earth(params) {
                             <tubeGeometry args={[xiamen_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
                         </mesh>
-                        <mesh position={xiamen_pole_end} rotation={[0, -Math.PI/1.2, 0]}>
+                        <mesh
+                            onPointerEnter={(e) => { toggleEnter(true) }}
+                            position={xiamen_pole_end}
+                            rotation={[0, -Math.PI/1.2, 0]}
+                        >
                             {/* <planeGeometry args={[0.3, 0.6]}/> */}
                             <textGeometry args={['HOME', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
@@ -278,10 +282,7 @@ export function Earth(params) {
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
                         </mesh>
-                        <mesh
-                            onPointerEnter={(e) => { toggleEnter(true) }}
-                            onPointerLeave={(e) => { toggleEnter(false) }}
-                        >
+                        <mesh>
                             <tubeGeometry args={[x_j_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
                                 attach="material"
@@ -294,10 +295,7 @@ export function Earth(params) {
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
                         </mesh>
-                        <mesh
-                            onPointerEnter={(e) => { toggleEnter(true) }}
-                            onPointerLeave={(e) => { toggleEnter(false) }}
-                        >
+                        <mesh>
                             <tubeGeometry args={[x_t_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
                                 attach="material"
@@ -312,7 +310,6 @@ export function Earth(params) {
                         </mesh>
                         <mesh
                             onPointerEnter={(e) => { toggleEnter(true) }}
-                            onPointerLeave={(e) => { toggleEnter(false) }}
                         >
                             <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
@@ -369,13 +366,15 @@ export function Earth(params) {
                             <tubeGeometry args={[vancouver_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
                         </mesh>
-                        <mesh position={vancouver_pole_end} rotation={[0, -Math.PI/2.5, 0]}>
+                        <mesh 
+                            onPointerEnter={(e) => { toggleEnter(true) }}
+                            position={vancouver_pole_end}
+                            rotation={[0, -Math.PI/2.5, 0]}
+                        >
                             <textGeometry args={['2NDHOME', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
                         <mesh
-                            onPointerEnter={(e) => { toggleEnter(true) }}
-                            onPointerLeave={(e) => { toggleEnter(false) }}
                         >
                             <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
@@ -393,14 +392,15 @@ export function Earth(params) {
                             <tubeGeometry args={[stoon_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
                         </mesh>
-                        <mesh position={stoon_pole_end} rotation={[0, -Math.PI/2.5, 0]}>
+                        <mesh
+                            onPointerEnter={(e) => { toggleEnter(true) }}
+                            position={stoon_pole_end}
+                            rotation={[0, -Math.PI/2.5, 0]}
+                        >
                             <textGeometry args={['UNIVERSITY', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
-                        <mesh
-                            onPointerEnter={(e) => { toggleEnter(true) }}
-                            onPointerLeave={(e) => { toggleEnter(false) }}
-                        >
+                        <mesh>
                             <tubeGeometry args={[s_v_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
                                 attach="material"
