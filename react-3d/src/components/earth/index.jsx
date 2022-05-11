@@ -268,6 +268,7 @@ export function Earth(params) {
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
+                            onPointerDown={(e) => {window.open("https://en.wikipedia.org/wiki/Xiamen");}}
                             position={xiamen_pole_end}
                             rotation={[0, -Math.PI/1.2, 0]}
                         >
@@ -305,10 +306,7 @@ export function Earth(params) {
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
                         </mesh>
-                        <mesh
-                            onPointerEnter={(e) => setEnter(true)}
-                            onPointerLeave={(e) => setEnter(false)}
-                        >
+                        <mesh>
                             <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
                                 attach="material"
@@ -367,6 +365,7 @@ export function Earth(params) {
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
+                            onPointerDown={(e) => {window.open("https://en.wikipedia.org/wiki/Greater_Vancouver");}}
                             position={vancouver_pole_end}
                             rotation={[0, -Math.PI/2.5, 0]}
                         >
@@ -394,6 +393,7 @@ export function Earth(params) {
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
+                            onPointerDown={(e) => {window.open("https://en.wikipedia.org/wiki/University_of_Saskatchewan")}}
                             position={stoon_pole_end}
                             rotation={[0, -Math.PI/2.5, 0]}
                         >
@@ -401,7 +401,7 @@ export function Earth(params) {
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
                         <mesh>
-                            <tubeGeometry args={[s_v_path, 30, 0.013, 8, false]} />
+                            <tubeGeometry args={[s_v_path, 30, 0.013, 8, false]}/>
                             <movingDashMaterial
                                 attach="material"
                                 time={time}
