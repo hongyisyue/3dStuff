@@ -5,6 +5,7 @@ import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
 import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
 import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
+import MyPhotoMap from "../../assets/textures/myPhoto3.jpg";
 import { OrbitControls, shaderMaterial, Stars, TransformControls, TrackballControls } from "@react-three/drei";
 import { ShaderMaterial } from "three";
 import { TextureLoader } from "three";
@@ -16,6 +17,7 @@ export function Earth(params) {
     
     let cloudsRef = useRef();
     let earthRef = useRef();
+    let photoRef = useRef();
     
     const font = useLoader(THREE.FontLoader, boldUrl);
     const textOption = {
@@ -142,9 +144,9 @@ export function Earth(params) {
 
     let [time, setTime] = useState(0.0);
 
-    const [dayMap, normalMap, specularMap, cloudsMap] = useLoader(
+    const [dayMap, normalMap, specularMap, cloudsMap, myPhotoMap] = useLoader(
         TextureLoader,
-        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap]
+        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap, MyPhotoMap]
     );
 
     useFrame(() => {
@@ -159,6 +161,9 @@ export function Earth(params) {
             console.log(isEnter);
             cloudsRef.current.rotation.y += 0.005;
         }
+
+        photoRef.current.rotation.x += 0.005;
+        photoRef.current.rotation.y += 0.005;
     });
 
     let MovingDashMaterial = shaderMaterial(
@@ -236,6 +241,15 @@ export function Earth(params) {
                     saturation={0}
                     fade={true}
                 />
+
+                <mesh ref={photoRef} position={[-3, 2, 0]}>
+                    <boxBufferGeometry args={[1, 1, 1]}/>
+                    <meshBasicMaterial
+                        map={myPhotoMap}
+                        metalness={0.6}
+                        roughness={0.5}
+                    />
+                </mesh>
 
                 <mesh ref={cloudsRef} position={[2, 0, 0]}>
                     <TrackballControls/>
