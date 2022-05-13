@@ -27,6 +27,7 @@ export function Earth(params) {
     }
     
     const [isEnter, setEnter] = useState(false);
+    const [isPhotoEnter, setPhotoEnter] = useState(false);
 
     const earth_r = 1.6;
 
@@ -162,8 +163,10 @@ export function Earth(params) {
             cloudsRef.current.rotation.y += 0.005;
         }
 
-        photoRef.current.rotation.x += 0.005;
-        photoRef.current.rotation.y += 0.005;
+        if (!isPhotoEnter) {
+            photoRef.current.rotation.x += 0.005;
+            photoRef.current.rotation.y += 0.005;
+        }
     });
 
     let MovingDashMaterial = shaderMaterial(
@@ -242,7 +245,13 @@ export function Earth(params) {
                     fade={true}
                 />
 
-                <mesh ref={photoRef} position={[-3, 2, 0]}>
+                <mesh
+                    ref={photoRef}
+                    position={[-3, 2, 0]}
+                    onPointerDown={(e) => {window.open("https://www.linkedin.com/in/hong-xue/");}}
+                    onPointerEnter={(e) => {setPhotoEnter(true);}}
+                    onPointerLeave={(e) => {setPhotoEnter(false);}}
+                >
                     <boxBufferGeometry args={[1, 1, 1]}/>
                     <meshBasicMaterial
                         map={myPhotoMap}
