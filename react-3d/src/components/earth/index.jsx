@@ -15,10 +15,12 @@ import glsl from 'babel-plugin-glsl/macro'
 
 export function Earth(params) {
     
+    /** refs */
     let cloudsRef = useRef();
     let earthRef = useRef();
     let photoRef = useRef();
     
+    /** For Text Geometry */
     const font = useLoader(THREE.FontLoader, boldUrl);
     const textOption = {
         font,
@@ -28,9 +30,17 @@ export function Earth(params) {
     
     const [isEnter, setEnter] = useState(false);
     const [isPhotoEnter, setPhotoEnter] = useState(false);
+    const [time, setTime] = useState(0.0);
+
+    /** Textures */
+    const [dayMap, normalMap, specularMap, cloudsMap, myPhotoMap] = useLoader(
+        TextureLoader,
+        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap, MyPhotoMap]
+    );
 
     const earth_r = 1.6;
 
+    /** Locations */
     const xiamen = {
         lat: 24.4797 * Math.PI / 180,
         lng: 118.0818 * Math.PI / 180 + 125 * Math.PI / 180,
@@ -85,6 +95,7 @@ export function Earth(params) {
     }
     const osaka_xyz = getPointXYZ(osaka);
 
+    /** Flight paths */
     const x_v_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, vancouver_xyz));
     const s_v_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, vancouver_xyz));
     const x_t_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, tokyo_xyz));
@@ -94,6 +105,7 @@ export function Earth(params) {
     const x_j_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, jinbian_xyz));
     const s_l_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, la_xyz));
 
+    /** Location Signs */
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
     const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, xiamen_pole_end);
 
@@ -111,12 +123,6 @@ export function Earth(params) {
             y: earth_r * Math.sin(p.lat),
             z: earth_r * Math.sin(p.lng) * Math.cos(p.lat)
         }
-    }
-
-    // returns a point for where the text geometry should start
-    // so that the center of the text will be at point p
-    function getTextStart(p) {
-
     }
     
     // returns a point of the end of the pole
@@ -143,20 +149,8 @@ export function Earth(params) {
         return points;
     }
 
-    let [time, setTime] = useState(0.0);
-
-    const [dayMap, normalMap, specularMap, cloudsMap, myPhotoMap] = useLoader(
-        TextureLoader,
-        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap, MyPhotoMap]
-    );
-
     useFrame(() => {
         setTime(time + 0.2);
-        // time += 1;
-        // setUniforms({
-        //     time: time,
-        //     // resolution: { value: new THREE.Vector4() }
-        // });
 
         if (!isEnter) {
             console.log(isEnter);
@@ -195,39 +189,6 @@ export function Earth(params) {
         `
     )
     extend({ MovingDashMaterial })
-
-    function toggleEnter(e) {
-        isEnter = e;
-    }
-
-    // function togglePress(e) {
-    //     if (isPressing) {
-    //         console.log('up');
-    //         isPressing = !isPressing;
-    //         lastX = undefined;
-    //         lastY = undefined;
-    //     } else {
-    //         console.log('down -> lastX');
-    //         isPressing = true
-    //         lastX = e.width;
-    //         lastY = e.height;
-    //         console.log(lastX);
-    //     }
-    // }
-
-    // depreciated
-    // function rotate(e) {
-    //     if (isPressing) {
-    //         console.log('drag: ' + e.width);
-    //         if (e.width < lastX) {
-    //             earthRef.current.rotation.y -= e.width * 0.03;
-    //             cloudsRef.current.rotation.y -= e.width * 0.03;
-    //         } else {
-    //             earthRef.current.rotation.y += e.width * 0.03;
-    //             cloudsRef.current.rotation.y += e.width * 0.03;
-    //         }
-    //     }
-    // }
 
     return (
         <>
