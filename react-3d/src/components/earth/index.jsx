@@ -6,6 +6,7 @@ import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
 import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
 import MyPhotoMap from "../../assets/textures/myPhoto3.jpg";
+import ArtMap from "../../assets/textures/web_art.png";
 import { OrbitControls, shaderMaterial, Stars, TransformControls, TrackballControls } from "@react-three/drei";
 import { ShaderMaterial } from "three";
 import { TextureLoader } from "three";
@@ -19,6 +20,7 @@ export function Earth(params) {
     let cloudsRef = useRef();
     let earthRef = useRef();
     let photoRef = useRef();
+    let artRef = useRef();
     
     /** For Text Geometry */
     const font = useLoader(THREE.FontLoader, boldUrl);
@@ -30,12 +32,13 @@ export function Earth(params) {
     
     const [isEnter, setEnter] = useState(false);
     const [isPhotoEnter, setPhotoEnter] = useState(false);
+    const [isArtEnter, setArtEnter] = useState(false);
     const [time, setTime] = useState(0.0);
 
     /** Textures */
-    const [dayMap, normalMap, specularMap, cloudsMap, myPhotoMap] = useLoader(
+    const [dayMap, normalMap, specularMap, cloudsMap, myPhotoMap, artMap] = useLoader(
         TextureLoader,
-        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap, MyPhotoMap]
+        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap, MyPhotoMap, ArtMap]
     );
 
     const earth_r = 1.6;
@@ -149,6 +152,7 @@ export function Earth(params) {
         return points;
     }
 
+    /** Animation */
     useFrame(() => {
         setTime(time + 0.2);
 
@@ -160,6 +164,11 @@ export function Earth(params) {
         if (!isPhotoEnter) {
             photoRef.current.rotation.x += 0.005;
             photoRef.current.rotation.y += 0.005;
+        }
+
+        if (!isArtEnter) {
+            artRef.current.rotation.x += 0.005;
+            artRef.current.rotation.y += 0.005;
         }
     });
 
@@ -216,6 +225,21 @@ export function Earth(params) {
                     <boxBufferGeometry args={[1, 1, 1]}/>
                     <meshBasicMaterial
                         map={myPhotoMap}
+                        metalness={0.6}
+                        roughness={0.5}
+                    />
+                </mesh>
+
+                <mesh
+                    ref={artRef}
+                    position={[-3, -2, 0]}
+                    onPointerDown={(e) => {window.open("https://www.instagram.com/hxue.art/");}}
+                    onPointerEnter={(e) => {setArtEnter(true);}}
+                    onPointerLeave={(e) => {setArtEnter(false);}}
+                >
+                    <boxBufferGeometry args={[1, 1, 1]}/>
+                    <meshBasicMaterial
+                        map={artMap}
                         metalness={0.6}
                         roughness={0.5}
                     />
