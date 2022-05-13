@@ -1,5 +1,5 @@
 import { useLoader, useFrame, extend } from "@react-three/fiber";
-import React, { useRef, PointerEvent, useState } from "react";
+import React, { useRef, useState } from "react";
 import * as THREE from "three";
 import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
 import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
@@ -7,8 +7,7 @@ import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
 import MyPhotoMap from "../../assets/textures/myPhoto3.jpg";
 import ArtMap from "../../assets/textures/web_art.png";
-import { OrbitControls, shaderMaterial, Stars, TransformControls, TrackballControls } from "@react-three/drei";
-import { ShaderMaterial } from "three";
+import { shaderMaterial, Stars, TrackballControls } from "@react-three/drei";
 import { TextureLoader } from "three";
 import boldUrl from '../../assets/fonts/bold.blob';
 
