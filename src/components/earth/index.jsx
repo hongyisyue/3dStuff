@@ -6,7 +6,8 @@ import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
 import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
 import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
 import MyPhotoMap from "../../assets/textures/myPhoto3.jpg";
-import ArtMap from "../../assets/textures/web_art.png";
+import LinkedinMap from "../../assets/textures/linkedin.png";
+import IgMap from "../../assets/textures/ig.png";
 import { shaderMaterial, Stars, TrackballControls } from "@react-three/drei";
 import { TextureLoader } from "three";
 import boldUrl from '../../assets/fonts/bold.blob';
@@ -19,7 +20,8 @@ export function Earth(params) {
     let cloudsRef = useRef();
     let earthRef = useRef();
     let photoRef = useRef();
-    let artRef = useRef();
+    let linkedinRef = useRef();
+    let igRef = useRef();
     
     /** For Text Geometry */
     const font = useLoader(THREE.FontLoader, boldUrl);
@@ -31,13 +33,14 @@ export function Earth(params) {
     
     const [isEnter, setEnter] = useState(false);
     const [isPhotoEnter, setPhotoEnter] = useState(false);
-    const [isArtEnter, setArtEnter] = useState(false);
+    const [isLkEnter, setLkEnter] = useState(false);
+    const [isIgEnter, setIgEnter] = useState(false);
     const [time, setTime] = useState(0.0);
 
     /** Textures */
-    const [dayMap, normalMap, specularMap, cloudsMap, myPhotoMap, artMap] = useLoader(
+    const [dayMap, normalMap, specularMap, cloudsMap, myPhotoMap, lkMap, igMap] = useLoader(
         TextureLoader,
-        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap, MyPhotoMap, ArtMap]
+        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap, MyPhotoMap, LinkedinMap, IgMap]
     );
 
     const earth_r = 1.6;
@@ -165,9 +168,14 @@ export function Earth(params) {
             photoRef.current.rotation.y += 0.005;
         }
 
-        if (!isArtEnter) {
-            artRef.current.rotation.x += 0.005;
-            artRef.current.rotation.y += 0.005;
+        if (!isLkEnter) {
+            linkedinRef.current.rotation.x += 0.005;
+            linkedinRef.current.rotation.y += 0.005;
+        }
+
+        if (!isIgEnter) {
+            igRef.current.rotation.x += 0.005;
+            igRef.current.rotation.y += 0.005;
         }
     });
 
@@ -216,8 +224,7 @@ export function Earth(params) {
 
                 <mesh
                     ref={photoRef}
-                    position={[-3, 2, 0]}
-                    onPointerDown={(e) => {window.open("https://www.linkedin.com/in/hong-xue/");}}
+                    position={[-4, 1.5, 0]}
                     onPointerEnter={(e) => {setPhotoEnter(true);}}
                     onPointerLeave={(e) => {setPhotoEnter(false);}}
                 >
@@ -230,15 +237,30 @@ export function Earth(params) {
                 </mesh>
 
                 <mesh
-                    ref={artRef}
-                    position={[-3, -2, 0]}
-                    onPointerDown={(e) => {window.open("https://www.instagram.com/hxue.art/");}}
-                    onPointerEnter={(e) => {setArtEnter(true);}}
-                    onPointerLeave={(e) => {setArtEnter(false);}}
+                    ref={linkedinRef}
+                    position={[-4, -0.5, 0]}
+                    onPointerDown={(e) => {window.open("https://www.linkedin.com/in/hong-xue/");}}
+                    onPointerEnter={(e) => {setLkEnter(true);}}
+                    onPointerLeave={(e) => {setLkEnter(false);}}
                 >
-                    <boxBufferGeometry args={[1, 1, 1]}/>
+                    <boxBufferGeometry args={[0.3, 0.3, 0.3]}/>
                     <meshBasicMaterial
-                        map={artMap}
+                        map={lkMap}
+                        metalness={0.6}
+                        roughness={0.5}
+                    />
+                </mesh>
+                
+                <mesh
+                    ref={igRef}
+                    position={[-4, -1.5, 0]}
+                    onPointerDown={(e) => {window.open("https://www.instagram.com/hxue.art/");}}
+                    onPointerEnter={(e) => {setIgEnter(true);}}
+                    onPointerLeave={(e) => {setIgEnter(false);}}
+                >
+                    <boxBufferGeometry args={[0.3, 0.3, 0.3]}/>
+                    <meshBasicMaterial
+                        map={igMap}
                         metalness={0.6}
                         roughness={0.5}
                     />
