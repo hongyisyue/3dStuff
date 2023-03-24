@@ -254,7 +254,7 @@ export function Earth(params) {
                 <mesh
                     ref={igRef}
                     position={[-4, -1.5, 0]}
-                    onPointerDown={(e) => {window.open("https://www.instagram.com/hxue.art/");}}
+                    onPointerDown={(e) => {window.open("https://www.instagram.com/hongx.art/");}}
                     onPointerEnter={(e) => {setIgEnter(true);}}
                     onPointerLeave={(e) => {setIgEnter(false);}}
                 >
