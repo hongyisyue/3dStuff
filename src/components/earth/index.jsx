@@ -119,6 +119,7 @@ export function Earth(params) {
     const s_b_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, banff_xyz));
     const x_j_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, jinbian_xyz));
     const s_l_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, la_xyz));
+    const v_c_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cancun_xyz));
 
     /** Location Signs */
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
@@ -357,6 +358,14 @@ export function Earth(params) {
                         <mesh position={[cancun_xyz.x, cancun_xyz.y, cancun_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[v_c_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
                         </mesh>
 
                         <mesh position={[la_xyz.x, la_xyz.y, la_xyz.z]}>
