@@ -110,6 +110,12 @@ export function Earth(params) {
     }
     const cancun_xyz = getPointXYZ(cancun);
 
+    const cannon_beach = {
+        lat: 45.8918 * Math.PI / 180,
+        lng: 123.9615 * Math.PI / 180 + 0 * Math.PI / 180
+    }
+    const cannon_xyz = getPointXYZ(cannon_beach);
+
     /** Flight paths */
     const x_v_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, vancouver_xyz));
     const s_v_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, vancouver_xyz));
@@ -120,6 +126,7 @@ export function Earth(params) {
     const x_j_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, jinbian_xyz));
     const s_l_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, la_xyz));
     const v_c_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cancun_xyz));
+    const v_cannnon_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cannon_xyz));
 
     /** Location Signs */
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
@@ -361,6 +368,19 @@ export function Earth(params) {
                         </mesh>
                         <mesh>
                             <tubeGeometry args={[v_c_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[cannon_xyz.x, cannon_xyz.y, cannon_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[v_cannnon_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
                                 attach="material"
                                 time={time}
