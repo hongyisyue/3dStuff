@@ -46,64 +46,61 @@ export function Earth(params) {
     const earth_r = 1.6;
 
     /** Locations */
-    //TODO: latitude calculation is good, longtitude is not
-    // + move the dot to west, 
+    //
     const xiamen = {
         lat: 24.4797 * Math.PI / 180,
-        lng: 118.0818 * Math.PI / 180 + 125 * Math.PI / 180,
+        lng: -118.0818 * Math.PI / 180,
     }
     const xiamen_xyz = getPointXYZ(xiamen);
 
     const vancouver = {
         lat: 49.2462 * Math.PI / 180,
-        lng: -123.1162 * Math.PI / 180 - 115 * Math.PI / 180
+        lng: 123.1162 * Math.PI / 180
     }
     const vancouver_xyz = getPointXYZ(vancouver);
 
     const toronto = {
         lat: 43.6510 * Math.PI /180,
-        lng: -79.3470 * Math.PI / 180 + 160 * Math.PI / 180
+        lng: 79.3470 * Math.PI / 180
     }
     const toronto_xyz = getPointXYZ(toronto);
 
     const banff = {
         lat: 51.1802 * Math.PI / 180,
-        lng: -115.5657 * Math.PI / 180 + 227 * Math.PI / 180
+        lng: 115.5657 * Math.PI / 180
     }
     const banff_xyz = getPointXYZ(banff);
 
     const jinbian = {
         lat: 11.5621 * Math.PI / 180, 
-        lng: 104.8885 * Math.PI / 180 + 150 * Math.PI / 180
+        lng: -104.8885 * Math.PI / 180
     }
     const jinbian_xyz = getPointXYZ(jinbian);
 
     const la = {
         lat: 34.0523 * Math.PI / 180,
-        lng: -118.2436 * Math.PI / 180 - 125 * Math.PI / 180
+        lng: 118.2436 * Math.PI / 180
     }
     const la_xyz = getPointXYZ(la);
 
     const stoon = {
         lat: 52.1332 * Math.PI / 180,
-        lng: -106.6700 * Math.PI / 180 + 210 * Math.PI / 180
+        lng: 106.6700 * Math.PI / 180
     }
     const stoon_xyz = getPointXYZ(stoon);
 
     const tokyo = {
         lat: 35.6528 * Math.PI / 180,
-        lng: 139.8394 * Math.PI / 180 + 80 * Math.PI / 180
+        lng: -139.8394 * Math.PI / 180
     }
     const tokyo_xyz = getPointXYZ(tokyo);
 
     const osaka = {
         lat: 34.6723 * Math.PI / 180,
-        lng: 135.4848 * Math.PI / 180 + 90 * Math.PI / 180
+        lng: -135.4848 * Math.PI / 180
     }
     const osaka_xyz = getPointXYZ(osaka);
 
-    // TODO: This might be the line to calculate longtitude consistantly!
-    // figure it out
     const cancun = {
         lat: 21.1619 * Math.PI / 180, 
         lng: 86.8515 * Math.PI / 180 + 0 * Math.PI / 180
