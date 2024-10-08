@@ -46,6 +46,8 @@ export function Earth(params) {
     const earth_r = 1.6;
 
     /** Locations */
+    //TODO: latitude calculation is good, longtitude is not
+    // + move the dot to west, 
     const xiamen = {
         lat: 24.4797 * Math.PI / 180,
         lng: 118.0818 * Math.PI / 180 + 125 * Math.PI / 180,
@@ -99,6 +101,14 @@ export function Earth(params) {
         lng: 135.4848 * Math.PI / 180 + 90 * Math.PI / 180
     }
     const osaka_xyz = getPointXYZ(osaka);
+
+    // TODO: This might be the line to calculate longtitude consistantly!
+    // figure it out
+    const cancun = {
+        lat: 21.1619 * Math.PI / 180, 
+        lng: 86.8515 * Math.PI / 180 + 0 * Math.PI / 180
+    }
+    const cancun_xyz = getPointXYZ(cancun);
 
     /** Flight paths */
     const x_v_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, vancouver_xyz));
@@ -342,6 +352,11 @@ export function Earth(params) {
                                 time={time}
                             >
                             </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[cancun_xyz.x, cancun_xyz.y, cancun_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
                         </mesh>
 
                         <mesh position={[la_xyz.x, la_xyz.y, la_xyz.z]}>
