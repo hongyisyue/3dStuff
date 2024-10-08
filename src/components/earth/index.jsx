@@ -254,7 +254,7 @@ export function Earth(params) {
                 <mesh
                     ref={igRef}
                     position={[-4, -1.5, 0]}
-                    onPointerDown={(e) => {window.open("https://www.instagram.com/hongx.art/");}}
+                    onPointerDown={(e) => {window.open("https://www.instagram.com/hongxdå.art/");}}
                     onPointerEnter={(e) => {setIgEnter(true);}}
                     onPointerLeave={(e) => {setIgEnter(false);}}
                 >
@@ -297,7 +297,7 @@ export function Earth(params) {
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
-                            onPointerDown={(e) => {window.open("https://en.wikipedia.org/wiki/Xiamen");}}
+                            onPointerDown={(e) => {window.open("https://www.google.com/maps/place/Xiamen,+Fujian,+China/@24.4788776,117.7973602,11z/data=!3m1!4b1!4m6!3m5!1s0x34148379e5bfeb27:0x28a0670a9668d056!8m2!3d24.4795099!4d118.0894799!16zL20vMDEyNmMz?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D");}}
                             position={xiamen_pole_end}
                             rotation={[0, -Math.PI/1.2, 0]}
                         >
@@ -394,7 +394,7 @@ export function Earth(params) {
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
-                            onPointerDown={(e) => {window.open("https://en.wikipedia.org/wiki/Greater_Vancouver");}}
+                            onPointerDown={(e) => {window.open("https://www.google.com/maps/place/Vancouver,+BC/@49.2577062,-123.2063043,12z/data=!3m1!4b1!4m6!3m5!1s0x548673f143a94fb3:0xbb9196ea9b81f38b!8m2!3d49.2827291!4d-123.1207375!16zL20vMDgwaDI?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D");}}
                             position={vancouver_pole_end}
                             rotation={[0, -Math.PI/2.5, 0]}
                         >
