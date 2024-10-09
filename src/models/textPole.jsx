@@ -53,7 +53,8 @@ export function TextPole(params) {
     }
 
     if (dot && text) {
-        const poleEnd = getLineEndPonit({ x: 0, y: 0, z: 0 }, dot);
+        const center = DefaultSettings.earth_center;
+        const poleEnd = getLineEndPonit(center, dot);
         return (
             <>
                 <Pole dot={dot}></Pole>

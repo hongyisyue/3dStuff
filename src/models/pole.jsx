@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { DefaultSettings } from "../data/default";
 
 export function Pole(params) {
     /**
@@ -14,6 +15,8 @@ export function Pole(params) {
      */
 
     const dot = params.dot;
+    
+    const center = DefaultSettings.earth_center;
 
     if (dot) {
         // returns a point of the end of the pole
@@ -24,8 +27,8 @@ export function Pole(params) {
             return v3;
         }
 
-        const poleEnd = getLineEndPonit({ x: 0, y: 0, z: 0 }, dot);
-        const pole = new THREE.LineCurve3({ x: 0, y: 0, z: 0 }, poleEnd);
+        const poleEnd = getLineEndPonit(center, dot);
+        const pole = new THREE.LineCurve3(center, poleEnd);
 
         return (
             <mesh>
