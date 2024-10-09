@@ -267,10 +267,7 @@ export function Earth(params) {
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
 
-                        <mesh position={[jinbian_xyz.x, jinbian_xyz.y, jinbian_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={jinbian_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[jinbian_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
@@ -293,10 +290,7 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
                        
-                        <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={tokyo_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[tokyo_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
@@ -320,10 +314,7 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
-                        <mesh position={[osaka_xyz.x, osaka_xyz.y, osaka_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={osaka_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
@@ -333,10 +324,7 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
-                        <mesh position={[cancun_xyz.x, cancun_xyz.y, cancun_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={cancun_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[cancun_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
@@ -359,10 +347,7 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
-                        <mesh position={[cannon_xyz.x, cannon_xyz.y, cannon_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={cannon_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[v_cannnon_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
@@ -372,10 +357,7 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
-                        <mesh position={[la_xyz.x, la_xyz.y, la_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={la_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[la_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
@@ -399,10 +381,7 @@ export function Earth(params) {
                         </mesh>
                         
 
-                        <mesh position={[banff_xyz.x, banff_xyz.y, banff_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={banff_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[s_b_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
@@ -412,10 +391,7 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
-                        <mesh position={[toronto_xyz.x, toronto_xyz.y, toronto_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={toronto_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[s_t_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
@@ -425,10 +401,7 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
-                        <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={vancouver_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[vancouver_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
@@ -453,10 +426,7 @@ export function Earth(params) {
                             </movingDashMaterial>
                         </mesh>
 
-                        <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={stoon_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[stoon_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
