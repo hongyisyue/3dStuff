@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { DefaultSettings } from "../data/default"
-// import { extend } from "@react-three/fiber";
-// import { shaderMaterial } from "@react-three/drei";
-// import glsl from 'babel-plugin-glsl/macro'
+import { extend } from "@react-three/fiber";
+import { shaderMaterial } from "@react-three/drei";
+import glsl from 'babel-plugin-glsl/macro'
 
 export function MovingPath(params) {
     /**
@@ -32,33 +32,32 @@ export function MovingPath(params) {
     const earth_r = params.earth_r || DefaultSettings.earth_r;
     let time = params.frameTime;
 
-    // 加不加没什么区别，先comment
-    // let MovingDashMaterial = shaderMaterial(
-    //     { time },
-    //     // vertex shader
-    //     glsl`
-    //         varying vec2 vUv;
-    //         void main() {
-    //             vUv = uv;
-    //             vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-    //             gl_Position = projectionMatrix * modelViewPosition;
-    //         }
-    //         `,
-    //     // fragment shader
-    //     glsl`
-    //         varying vec2 vUv;
-    //         uniform float time;
+    let MovingDashMaterial = shaderMaterial(
+        { time },
+        // vertex shader
+        glsl`
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+                gl_Position = projectionMatrix * modelViewPosition;
+            }
+            `,
+        // fragment shader
+        glsl`
+            varying vec2 vUv;
+            uniform float time;
             
-    //         void main() {
-    //             float dash = sin(vUv.x * 50. - time);
+            void main() {
+                float dash = sin(vUv.x * 50. - time);
           
-    //         if(dash<0.) discard;
+            if(dash<0.) discard;
         
-    //         gl_FragColor = vec4( vUv.y,0.7,1.0,1.0 );
-    //       }
-    //     `
-    // )
-    // extend({ MovingDashMaterial });
+            gl_FragColor = vec4( vUv.y,0.7,1.0,1.0 );
+          }
+        `
+    )
+    extend({ MovingDashMaterial });
 
     if (from && to) {
         // returns an arry of points of the curve
