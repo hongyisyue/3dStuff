@@ -11,14 +11,9 @@ export function Pole(params) {
      *  y: number,
      *  z: number
      * }
-     * endText: {
-     *  text: string,
-     *  link: string
-     * }
      */
 
     const dot = params.dot;
-    const endText = params.endText;
 
     if (dot) {
         // returns a point of the end of the pole
