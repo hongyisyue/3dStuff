@@ -141,6 +141,9 @@ export function Earth(params) {
     const la_pole_end = getLineEndPonit({x:0, y:0, z:0}, la_xyz);
     const la_pole = new THREE.LineCurve3({x:0, y:0, z:0}, la_pole_end);
 
+    const jinbian_pole_end = getLineEndPonit({x:0, y:0, z:0}, jinbian_xyz);
+    const jinbian_pole = new THREE.LineCurve3({x:0, y:0, z:0}, jinbian_pole_end);
+
 
     // returns a point with lat & lng to a vertor3 point
     function getPointXYZ(p) {
@@ -330,6 +333,20 @@ export function Earth(params) {
                         <mesh position={[jinbian_xyz.x, jinbian_xyz.y, jinbian_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
                             <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[jinbian_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => setEnter(true)}
+                            onPointerLeave={(e) => setEnter(false)}
+                            position={jinbian_pole_end}
+                            rotation={[0, -Math.PI/1.2, 0]}
+                        >
+                            {/* NOTE: text Grometry cannot take in lower case letter */}
+                            <textGeometry args={['CAMBODIA', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
                         <mesh>
                             <tubeGeometry args={[x_j_path, 30, 0.013, 8, false]} />
