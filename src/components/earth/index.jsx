@@ -47,116 +47,51 @@ export function Earth(params) {
     const earth_r = 1.6;
 
     /** Locations */
-    // const xiamen = {
-    //     lat: 24.4797 * Math.PI / 180,
-    //     lng: -118.0818 * Math.PI / 180,
-    // }
-    // const xiamen_xyz = getPointXYZ(xiamen);
     const xiamen_xyz = geoToXYZ(earth_r, MyLocations.xiamen);
-
-    // const vancouver = {
-    //     lat: 49.2462 * Math.PI / 180,
-    //     lng: 123.1162 * Math.PI / 180
-    // }
-    // const vancouver_xyz = getPointXYZ(vancouver);
-
-    // const toronto = {
-    //     lat: 43.6510 * Math.PI /180,
-    //     lng: 79.3470 * Math.PI / 180
-    // }
-    // const toronto_xyz = getPointXYZ(toronto);
-
-    // const banff = {
-    //     lat: 51.1802 * Math.PI / 180,
-    //     lng: 115.5657 * Math.PI / 180
-    // }
-    // const banff_xyz = getPointXYZ(banff);
-
-    // const jinbian = {
-    //     lat: 11.5621 * Math.PI / 180, 
-    //     lng: -104.8885 * Math.PI / 180
-    // }
-    // const jinbian_xyz = getPointXYZ(jinbian);
-
-    // const la = {
-    //     lat: 34.0523 * Math.PI / 180,
-    //     lng: 118.2436 * Math.PI / 180
-    // }
-    // const la_xyz = getPointXYZ(la);
-
-    // const stoon = {
-    //     lat: 52.1332 * Math.PI / 180,
-    //     lng: 106.6700 * Math.PI / 180
-    // }
-    // const stoon_xyz = getPointXYZ(stoon);
-
-    // const tokyo = {
-    //     lat: 35.6528 * Math.PI / 180,
-    //     lng: -139.8394 * Math.PI / 180
-    // }
-    // const tokyo_xyz = getPointXYZ(tokyo);
-
-    // const osaka = {
-    //     lat: 34.6723 * Math.PI / 180,
-    //     lng: -135.4848 * Math.PI / 180
-    // }
-    // const osaka_xyz = getPointXYZ(osaka);
-
-    // const cancun = {
-    //     lat: 21.1619 * Math.PI / 180, 
-    //     lng: 86.8515 * Math.PI / 180 + 0 * Math.PI / 180
-    // }
-    // const cancun_xyz = getPointXYZ(cancun);
-
-    // const cannon_beach = {
-    //     lat: 45.8918 * Math.PI / 180,
-    //     lng: 123.9615 * Math.PI / 180 + 0 * Math.PI / 180
-    // }
-    // const cannon_xyz = getPointXYZ(cannon_beach);
+    const vancouver_xyz = geoToXYZ(earth_r, MyLocations.vancouver);
+    const toronto_xyz = geoToXYZ(earth_r, MyLocations.toronto);
+    const banff_xyz = geoToXYZ(earth_r, MyLocations.banff);
+    const jinbian_xyz = geoToXYZ(earth_r, MyLocations.jinbian);
+    const la_xyz = geoToXYZ(earth_r, MyLocations.la);
+    const stoon_xyz = geoToXYZ(earth_r, MyLocations.stoon);
+    const tokyo_xyz = geoToXYZ(earth_r, MyLocations.tokyo);
+    const osaka_xyz = geoToXYZ(earth_r, MyLocations.osaka);
+    const cancun_xyz = geoToXYZ(earth_r, MyLocations.cancun);
+    const cannon_xyz = geoToXYZ(earth_r, MyLocations.cannon_beach);
 
     /** Flight paths */
-    // const x_v_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, vancouver_xyz));
-    // const s_v_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, vancouver_xyz));
-    // const x_t_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, tokyo_xyz));
-    // const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
-    // const s_t_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, toronto_xyz));
-    // const s_b_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, banff_xyz));
-    // const x_j_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, jinbian_xyz));
-    // const s_l_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, la_xyz));
-    // const v_c_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cancun_xyz));
-    // const v_cannnon_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cannon_xyz));
+    const x_v_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, vancouver_xyz));
+    const s_v_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, vancouver_xyz));
+    const x_t_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, tokyo_xyz));
+    const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
+    const s_t_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, toronto_xyz));
+    const s_b_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, banff_xyz));
+    const x_j_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, jinbian_xyz));
+    const s_l_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, la_xyz));
+    const v_c_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cancun_xyz));
+    const v_cannnon_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cannon_xyz));
 
     /** Location Signs */
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
     const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, xiamen_pole_end);
 
-    // const vancouver_pole_end = getLineEndPonit({x:0, y:0, z:0}, vancouver_xyz);
-    // const vancouver_pole = new THREE.LineCurve3({x:0, y:0, z:0}, vancouver_pole_end);
+    const vancouver_pole_end = getLineEndPonit({x:0, y:0, z:0}, vancouver_xyz);
+    const vancouver_pole = new THREE.LineCurve3({x:0, y:0, z:0}, vancouver_pole_end);
 
-    // const stoon_pole_end = getLineEndPonit({x:0, y:0, z:0}, stoon_xyz);
-    // const stoon_pole = new THREE.LineCurve3({x:0, y:0, z:0}, stoon_pole_end);
+    const stoon_pole_end = getLineEndPonit({x:0, y:0, z:0}, stoon_xyz);
+    const stoon_pole = new THREE.LineCurve3({x:0, y:0, z:0}, stoon_pole_end);
 
-    // const cancun_pole_end = getLineEndPonit({x:0, y:0, z:0}, cancun_xyz);
-    // const cancun_pole = new THREE.LineCurve3({x:0, y:0, z:0}, cancun_pole_end);
+    const cancun_pole_end = getLineEndPonit({x:0, y:0, z:0}, cancun_xyz);
+    const cancun_pole = new THREE.LineCurve3({x:0, y:0, z:0}, cancun_pole_end);
 
-    // const la_pole_end = getLineEndPonit({x:0, y:0, z:0}, la_xyz);
-    // const la_pole = new THREE.LineCurve3({x:0, y:0, z:0}, la_pole_end);
+    const la_pole_end = getLineEndPonit({x:0, y:0, z:0}, la_xyz);
+    const la_pole = new THREE.LineCurve3({x:0, y:0, z:0}, la_pole_end);
 
-    // const jinbian_pole_end = getLineEndPonit({x:0, y:0, z:0}, jinbian_xyz);
-    // const jinbian_pole = new THREE.LineCurve3({x:0, y:0, z:0}, jinbian_pole_end);
+    const jinbian_pole_end = getLineEndPonit({x:0, y:0, z:0}, jinbian_xyz);
+    const jinbian_pole = new THREE.LineCurve3({x:0, y:0, z:0}, jinbian_pole_end);
     
-    // const tokyo_pole_end = getLineEndPonit({x:0, y:0, z:0}, tokyo_xyz);
-    // const tokyo_pole = new THREE.LineCurve3({x:0, y:0, z:0}, tokyo_pole_end);
-
-
-    // returns a point with lat & lng to a vertor3 point
-    // function getPointXYZ(p) {
-    //     return {
-    //         x: earth_r * Math.cos(p.lng) * Math.cos(p.lat),
-    //         y: earth_r * Math.sin(p.lat),
-    //         z: earth_r * Math.sin(p.lng) * Math.cos(p.lat)
-    //     }
-    // }
+    const tokyo_pole_end = getLineEndPonit({x:0, y:0, z:0}, tokyo_xyz);
+    const tokyo_pole = new THREE.LineCurve3({x:0, y:0, z:0}, tokyo_pole_end);
     
     // returns a point of the end of the pole
     // p1 should always be the center point of the earth
@@ -334,6 +269,218 @@ export function Earth(params) {
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
 
+                        <mesh position={[jinbian_xyz.x, jinbian_xyz.y, jinbian_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[jinbian_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => setEnter(true)}
+                            onPointerLeave={(e) => setEnter(false)}
+                            position={jinbian_pole_end}
+                            rotation={[0, -Math.PI/1.2, 0]}
+                        >
+                            <textGeometry args={['PHNOMPENH', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[x_j_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+                       
+                        <mesh position={[tokyo_xyz.x, tokyo_xyz.y, tokyo_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[tokyo_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => setEnter(true)}
+                            onPointerLeave={(e) => setEnter(false)}
+                            position={tokyo_pole_end}
+                            rotation={[0, -Math.PI/1.2, 0]}
+                        >
+                            {/* NOTE: text Grometry cannot take in lower case letter */}
+                            <textGeometry args={['TOKYO', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[x_t_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[osaka_xyz.x, osaka_xyz.y, osaka_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[cancun_xyz.x, cancun_xyz.y, cancun_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[cancun_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => setEnter(true)}
+                            onPointerLeave={(e) => setEnter(false)}
+                            position={cancun_pole_end}
+                            rotation={[0, -Math.PI/2.5, 0]}
+                        >
+                            <textGeometry args={['CANCUN', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[v_c_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[cannon_xyz.x, cannon_xyz.y, cannon_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[v_cannnon_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[la_xyz.x, la_xyz.y, la_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[la_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => setEnter(true)}
+                            onPointerLeave={(e) => setEnter(false)}
+                            position={la_pole_end}
+                            rotation={[0, -Math.PI/2.5, 0]}
+                        >
+                            <textGeometry args={['LA', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[s_l_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+                        
+
+                        <mesh position={[banff_xyz.x, banff_xyz.y, banff_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[s_b_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[toronto_xyz.x, toronto_xyz.y, toronto_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[s_t_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[vancouver_xyz.x, vancouver_xyz.y, vancouver_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[vancouver_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => setEnter(true)}
+                            onPointerLeave={(e) => setEnter(false)}
+                            onPointerDown={(e) => {window.open("https://www.google.com/maps/place/Vancouver,+BC/@49.2577062,-123.2063043,12z/data=!3m1!4b1!4m6!3m5!1s0x548673f143a94fb3:0xbb9196ea9b81f38b!8m2!3d49.2827291!4d-123.1207375!16zL20vMDgwaDI?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D");}}
+                            position={vancouver_pole_end}
+                            rotation={[0, -Math.PI/2.5, 0]}
+                        >
+                            <textGeometry args={['2NDHOME', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                        >
+                            <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
+
+                        <mesh position={[stoon_xyz.x, stoon_xyz.y, stoon_xyz.z]}>
+                            <sphereBufferGeometry args={[0.018, 32, 32]} />
+                            <meshBasicMaterial color="red"></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[stoon_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => setEnter(true)}
+                            onPointerLeave={(e) => setEnter(false)}
+                            onPointerDown={(e) => {window.open("https://en.wikipedia.org/wiki/University_of_Saskatchewan")}}
+                            position={stoon_pole_end}
+                            rotation={[0, -Math.PI/2.5, 0]}
+                        >
+                            <textGeometry args={['UNIVERSITY', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
+                            <tubeGeometry args={[s_v_path, 30, 0.013, 8, false]}/>
+                            <movingDashMaterial
+                                attach="material"
+                                time={time}
+                            >
+                            </movingDashMaterial>
+                        </mesh>
                     </mesh>
                 </mesh>
 
