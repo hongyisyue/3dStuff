@@ -1,6 +1,3 @@
-import React, { useRef, useState } from "react";
-import * as THREE from "three";
-
 export function MapDot(params) {
     /**
      * params should have a dot property
@@ -17,9 +14,9 @@ export function MapDot(params) {
     return (
         <mesh position={[dot.x, dot.y, dot.z]}>
             <sphereBufferGeometry args={[
-                0.018,
-                32,
-                32]} />
+                dot.radius || 0.018,
+                dot.horSegment || 32,
+                dot.verSegment || 32]} />
             <meshBasicMaterial color="red"></meshBasicMaterial>
         </mesh>
     )
