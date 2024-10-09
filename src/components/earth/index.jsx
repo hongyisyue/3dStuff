@@ -138,6 +138,9 @@ export function Earth(params) {
     const cancun_pole_end = getLineEndPonit({x:0, y:0, z:0}, cancun_xyz);
     const cancun_pole = new THREE.LineCurve3({x:0, y:0, z:0}, cancun_pole_end);
 
+    const la_pole_end = getLineEndPonit({x:0, y:0, z:0}, la_xyz);
+    const la_pole = new THREE.LineCurve3({x:0, y:0, z:0}, la_pole_end);
+
 
     // returns a point with lat & lng to a vertor3 point
     function getPointXYZ(p) {
@@ -407,6 +410,19 @@ export function Earth(params) {
                             <meshBasicMaterial color="red"></meshBasicMaterial>
                         </mesh>
                         <mesh>
+                            <tubeGeometry args={[la_pole, 30, 0.013, 8, false]}/>
+                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
+                        </mesh>
+                        <mesh
+                            onPointerEnter={(e) => setEnter(true)}
+                            onPointerLeave={(e) => setEnter(false)}
+                            position={la_pole_end}
+                            rotation={[0, -Math.PI/2.5, 0]}
+                        >
+                            <textGeometry args={['LA', textOption]}/>
+                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
+                        </mesh>
+                        <mesh>
                             <tubeGeometry args={[s_l_path, 30, 0.013, 8, false]} />
                             <movingDashMaterial
                                 attach="material"
@@ -414,6 +430,7 @@ export function Earth(params) {
                             >
                             </movingDashMaterial>
                         </mesh>
+                        
 
                         <mesh position={[banff_xyz.x, banff_xyz.y, banff_xyz.z]}>
                             <sphereBufferGeometry args={[0.018, 32, 32]} />
