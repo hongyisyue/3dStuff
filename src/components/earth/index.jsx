@@ -18,7 +18,7 @@ import { MapDot } from "../../models/mapDot";
 import { MovingPath } from "../../models/movingPath";
 import { Pole } from "../../models/pole";
 import { DefaultSettings } from "../../data/default";
-import { Text3d } from "../../models/text3d";
+import { TextPole } from "../../models/textPole";
 
 export function Earth(params) {
     
@@ -63,8 +63,6 @@ export function Earth(params) {
     const cannon_xyz = geoToXYZ(earth_r, MyLocations.cannon_beach);
 
     /** Location Signs */
-    const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
-
     const vancouver_pole_end = getLineEndPonit({x:0, y:0, z:0}, vancouver_xyz);
 
     const stoon_pole_end = getLineEndPonit({x:0, y:0, z:0}, stoon_xyz);
@@ -218,7 +216,8 @@ export function Earth(params) {
                         />
 
                         <MapDot dot={xiamen_xyz}></MapDot>
-                        <Pole dot={xiamen_xyz}></Pole>
+                        {/* example of doing it seperately */}
+                        {/* <Pole dot={xiamen_xyz}></Pole>
                         <Text3d
                             pos={xiamen_pole_end}
                             text={'HOME'}
@@ -226,7 +225,15 @@ export function Earth(params) {
                             mouseEnterEvent={(e) => setEnter(true)}
                             mouseLeaveEvent={(e) => setEnter(false)}
                             mouseDownEvent={(e) => {window.open("https://www.google.com/maps/place/Xiamen,+Fujian,+China/@24.4788776,117.7973602,11z/data=!3m1!4b1!4m6!3m5!1s0x34148379e5bfeb27:0x28a0670a9668d056!8m2!3d24.4795099!4d118.0894799!16zL20vMDEyNmMz?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D");}}
-                        ></Text3d>
+                        ></Text3d> */}
+                        <TextPole
+                            dot={xiamen_xyz}
+                            text={'HOME'}
+                            rotate={1.2}
+                            mouseEnterEvent={(e) => setEnter(true)}
+                            mouseLeaveEvent={(e) => setEnter(false)}
+                            mouseDownEvent={(e) => {window.open("https://www.google.com/maps/place/Xiamen,+Fujian,+China/@24.4788776,117.7973602,11z/data=!3m1!4b1!4m6!3m5!1s0x34148379e5bfeb27:0x28a0670a9668d056!8m2!3d24.4795099!4d118.0894799!16zL20vMDEyNmMz?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D");}}
+                        ></TextPole>
 
                         <MapDot dot={jinbian_xyz}></MapDot>
                         <Pole dot={jinbian_xyz}></Pole>
