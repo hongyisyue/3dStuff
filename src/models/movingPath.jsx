@@ -8,6 +8,9 @@ export function MovingPath(params) {
     /**
      * Given 2 xyz points, "from" and "to", 
      * create a flight path from "from" to "to"
+     * 
+     * 
+     * --params--
      * from: {
      *  x: number,
      *  y: number,
@@ -85,5 +88,7 @@ export function MovingPath(params) {
                 </movingDashMaterial>
             </mesh>
         )
+    } else {
+        return null;
     }
 }

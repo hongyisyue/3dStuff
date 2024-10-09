@@ -1,6 +1,9 @@
 export function MapDot(params) {
     /**
-     * params should have a dot property
+     * Given a dot that has x, y, z asix values,
+     * create a red dot(pin) in the 3d space
+     * 
+     * --params--
      * dot: {
      *  x: number,
      *  y: number,
