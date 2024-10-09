@@ -15,6 +15,7 @@ import boldUrl from '../../assets/fonts/bold.blob';
 import glsl from 'babel-plugin-glsl/macro'
 import { MyLocations, geoToXYZ } from "../../data/locations";
 import { MapDot } from "../../models/mapDot";
+import { MovingPath } from "../../models/movingPath";
 
 export function Earth(params) {
     
@@ -60,18 +61,6 @@ export function Earth(params) {
     const cancun_xyz = geoToXYZ(earth_r, MyLocations.cancun);
     const cannon_xyz = geoToXYZ(earth_r, MyLocations.cannon_beach);
 
-    /** Flight paths */
-    const x_v_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, vancouver_xyz));
-    const s_v_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, vancouver_xyz));
-    const x_t_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, tokyo_xyz));
-    const t_o_path = new THREE.CatmullRomCurve3(getCurve(tokyo_xyz, osaka_xyz));
-    const s_t_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, toronto_xyz));
-    const s_b_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, banff_xyz));
-    const x_j_path = new THREE.CatmullRomCurve3(getCurve(xiamen_xyz, jinbian_xyz));
-    const s_l_path = new THREE.CatmullRomCurve3(getCurve(stoon_xyz, la_xyz));
-    const v_c_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cancun_xyz));
-    const v_cannnon_path = new THREE.CatmullRomCurve3(getCurve(vancouver_xyz, cannon_xyz));
-
     /** Location Signs */
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
     const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, xiamen_pole_end);
@@ -100,22 +89,6 @@ export function Earth(params) {
         const v3 = new THREE.Vector3(p2.x + (p2.x - p1.x)/4 , p2.y + (p2.y - p1.y)/4, p2.z + (p2.z - p1.z)/4);
 
         return v3;
-    }
-
-    // returns an arry of points of the curve
-    function getCurve(p1, p2) {
-        const v1 = new THREE.Vector3(p1.x, p1.y, p1.z);
-        const v2 = new THREE.Vector3(p2.x, p2.y, p2.z);
-
-        const points = [];
-        for (let i = 0; i < 21; i++) {
-            const p = new THREE.Vector3().lerpVectors(v1, v2, i / 20);
-            p.normalize();
-            p.multiplyScalar(earth_r + 0.1 * Math.sin(Math.PI * i / 20));
-            points.push(p);
-        }
-
-        return points;
     }
 
     /** Animation */
@@ -281,14 +254,11 @@ export function Earth(params) {
                             <textGeometry args={['PHNOMPENH', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
-                        <mesh>
-                            <tubeGeometry args={[x_j_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={xiamen_xyz}
+                            to={jinbian_xyz}
+                            frameTime={time}
+                        ></MovingPath>
                        
                         <MapDot dot={tokyo_xyz}></MapDot>
                         <mesh>
@@ -305,24 +275,18 @@ export function Earth(params) {
                             <textGeometry args={['TOKYO', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
-                        <mesh>
-                            <tubeGeometry args={[x_t_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={xiamen_xyz}
+                            to={tokyo_xyz}
+                            frameTime={time}
+                        ></MovingPath>
 
                         <MapDot dot={osaka_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[t_o_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={tokyo_xyz}
+                            to={osaka_xyz}
+                            frameTime={time}
+                        ></MovingPath>
 
                         <MapDot dot={cancun_xyz}></MapDot>
                         <mesh>
@@ -338,24 +302,18 @@ export function Earth(params) {
                             <textGeometry args={['CANCUN', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
-                        <mesh>
-                            <tubeGeometry args={[v_c_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={vancouver_xyz}
+                            to={cancun_xyz}
+                            frameTime={time}
+                        ></MovingPath>
 
                         <MapDot dot={cannon_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[v_cannnon_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={vancouver_xyz}
+                            to={cannon_xyz}
+                            frameTime={time}
+                        ></MovingPath>
 
                         <MapDot dot={la_xyz}></MapDot>
                         <mesh>
@@ -371,35 +329,26 @@ export function Earth(params) {
                             <textGeometry args={['LA', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
-                        <mesh>
-                            <tubeGeometry args={[s_l_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={stoon_xyz}
+                            to={la_xyz}
+                            frameTime={time}
+                        ></MovingPath>
                         
 
                         <MapDot dot={banff_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[s_b_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={stoon_xyz}
+                            to={banff_xyz}
+                            frameTime={time}
+                        ></MovingPath>
 
                         <MapDot dot={toronto_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[s_t_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={stoon_xyz}
+                            to={toronto_xyz}
+                            frameTime={time}
+                        ></MovingPath>
 
                         <MapDot dot={vancouver_xyz}></MapDot>
                         <mesh>
@@ -416,15 +365,11 @@ export function Earth(params) {
                             <textGeometry args={['2NDHOME', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
-                        <mesh
-                        >
-                            <tubeGeometry args={[x_v_path, 30, 0.013, 8, false]} />
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={xiamen_xyz}
+                            to={vancouver_xyz}
+                            frameTime={time}
+                        ></MovingPath>
 
                         <MapDot dot={stoon_xyz}></MapDot>
                         <mesh>
@@ -441,14 +386,11 @@ export function Earth(params) {
                             <textGeometry args={['UNIVERSITY', textOption]}/>
                             <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
                         </mesh>
-                        <mesh>
-                            <tubeGeometry args={[s_v_path, 30, 0.013, 8, false]}/>
-                            <movingDashMaterial
-                                attach="material"
-                                time={time}
-                            >
-                            </movingDashMaterial>
-                        </mesh>
+                        <MovingPath
+                            from={vancouver_xyz}
+                            to={stoon_xyz}
+                            frameTime={time}
+                        ></MovingPath>
                     </mesh>
                 </mesh>
 
