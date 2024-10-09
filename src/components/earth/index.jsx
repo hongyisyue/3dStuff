@@ -16,6 +16,7 @@ import glsl from 'babel-plugin-glsl/macro'
 import { MyLocations, geoToXYZ } from "../../data/locations";
 import { MapDot } from "../../models/mapDot";
 import { MovingPath } from "../../models/movingPath";
+import { Pole } from "../../models/pole";
 
 export function Earth(params) {
     
@@ -63,25 +64,18 @@ export function Earth(params) {
 
     /** Location Signs */
     const xiamen_pole_end = getLineEndPonit({x:0, y:0, z:0}, xiamen_xyz);
-    const xiamen_pole = new THREE.LineCurve3({x:0, y:0, z:0}, xiamen_pole_end);
 
     const vancouver_pole_end = getLineEndPonit({x:0, y:0, z:0}, vancouver_xyz);
-    const vancouver_pole = new THREE.LineCurve3({x:0, y:0, z:0}, vancouver_pole_end);
 
     const stoon_pole_end = getLineEndPonit({x:0, y:0, z:0}, stoon_xyz);
-    const stoon_pole = new THREE.LineCurve3({x:0, y:0, z:0}, stoon_pole_end);
 
     const cancun_pole_end = getLineEndPonit({x:0, y:0, z:0}, cancun_xyz);
-    const cancun_pole = new THREE.LineCurve3({x:0, y:0, z:0}, cancun_pole_end);
 
     const la_pole_end = getLineEndPonit({x:0, y:0, z:0}, la_xyz);
-    const la_pole = new THREE.LineCurve3({x:0, y:0, z:0}, la_pole_end);
 
     const jinbian_pole_end = getLineEndPonit({x:0, y:0, z:0}, jinbian_xyz);
-    const jinbian_pole = new THREE.LineCurve3({x:0, y:0, z:0}, jinbian_pole_end);
     
     const tokyo_pole_end = getLineEndPonit({x:0, y:0, z:0}, tokyo_xyz);
-    const tokyo_pole = new THREE.LineCurve3({x:0, y:0, z:0}, tokyo_pole_end);
     
     // returns a point of the end of the pole
     // p1 should always be the center point of the earth
@@ -224,10 +218,7 @@ export function Earth(params) {
                         />
 
                         <MapDot dot={xiamen_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[xiamen_pole, 30, 0.013, 8, false]}/>
-                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
-                        </mesh>
+                        <Pole dot={xiamen_xyz}></Pole>
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
@@ -241,10 +232,7 @@ export function Earth(params) {
                         </mesh>
 
                         <MapDot dot={jinbian_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[jinbian_pole, 30, 0.013, 8, false]}/>
-                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
-                        </mesh>
+                        <Pole dot={jinbian_xyz}></Pole>
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
@@ -261,10 +249,7 @@ export function Earth(params) {
                         ></MovingPath>
                        
                         <MapDot dot={tokyo_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[tokyo_pole, 30, 0.013, 8, false]}/>
-                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
-                        </mesh>
+                        <Pole dot={tokyo_xyz}></Pole>
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
@@ -289,10 +274,7 @@ export function Earth(params) {
                         ></MovingPath>
 
                         <MapDot dot={cancun_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[cancun_pole, 30, 0.013, 8, false]}/>
-                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
-                        </mesh>
+                        <Pole dot={cancun_xyz}></Pole>
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
@@ -316,10 +298,7 @@ export function Earth(params) {
                         ></MovingPath>
 
                         <MapDot dot={la_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[la_pole, 30, 0.013, 8, false]}/>
-                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
-                        </mesh>
+                        <Pole dot={la_xyz}></Pole>
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
@@ -335,7 +314,6 @@ export function Earth(params) {
                             frameTime={time}
                         ></MovingPath>
                         
-
                         <MapDot dot={banff_xyz}></MapDot>
                         <MovingPath
                             from={stoon_xyz}
@@ -351,10 +329,7 @@ export function Earth(params) {
                         ></MovingPath>
 
                         <MapDot dot={vancouver_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[vancouver_pole, 30, 0.013, 8, false]}/>
-                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
-                        </mesh>
+                        <Pole dot={vancouver_xyz}></Pole>
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
@@ -372,10 +347,7 @@ export function Earth(params) {
                         ></MovingPath>
 
                         <MapDot dot={stoon_xyz}></MapDot>
-                        <mesh>
-                            <tubeGeometry args={[stoon_pole, 30, 0.013, 8, false]}/>
-                            <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
-                        </mesh>
+                        <Pole dot={stoon_xyz}></Pole>
                         <mesh
                             onPointerEnter={(e) => setEnter(true)}
                             onPointerLeave={(e) => setEnter(false)}
