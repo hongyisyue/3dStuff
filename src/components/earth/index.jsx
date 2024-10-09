@@ -17,6 +17,8 @@ import { MyLocations, geoToXYZ } from "../../data/locations";
 import { MapDot } from "../../models/mapDot";
 import { MovingPath } from "../../models/movingPath";
 import { Pole } from "../../models/pole";
+import { DefaultSettings } from "../../data/default";
+import { Text3d } from "../../models/text3d";
 
 export function Earth(params) {
     
@@ -30,11 +32,9 @@ export function Earth(params) {
     /** For Text Geometry */
     const font = useLoader(THREE.FontLoader, boldUrl);
     const textOption = {
-        font,
-        size: 0.1,
-        height: 0.05
+        font, ...DefaultSettings.textOption
     }
-    
+
     const [isEnter, setEnter] = useState(false);
     const [isPhotoEnter, setPhotoEnter] = useState(false);
     const [isLkEnter, setLkEnter] = useState(false);
@@ -219,17 +219,14 @@ export function Earth(params) {
 
                         <MapDot dot={xiamen_xyz}></MapDot>
                         <Pole dot={xiamen_xyz}></Pole>
-                        <mesh
-                            onPointerEnter={(e) => setEnter(true)}
-                            onPointerLeave={(e) => setEnter(false)}
-                            onPointerDown={(e) => {window.open("https://www.google.com/maps/place/Xiamen,+Fujian,+China/@24.4788776,117.7973602,11z/data=!3m1!4b1!4m6!3m5!1s0x34148379e5bfeb27:0x28a0670a9668d056!8m2!3d24.4795099!4d118.0894799!16zL20vMDEyNmMz?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D");}}
-                            position={xiamen_pole_end}
-                            rotation={[0, -Math.PI/1.2, 0]}
-                        >
-                            {/* NOTE: text Grometry cannot take in lower case letter */}
-                            <textGeometry args={['HOME', textOption]}/>
-                            <meshBasicMaterial color="#BFF8FF" side={THREE.DoubleSide}></meshBasicMaterial>
-                        </mesh>
+                        <Text3d
+                            pos={xiamen_pole_end}
+                            text={'HOME'}
+                            rotate={1.2}
+                            mouseEnterEvent={(e) => setEnter(true)}
+                            mouseLeaveEvent={(e) => setEnter(false)}
+                            mouseDownEvent={(e) => {window.open("https://www.google.com/maps/place/Xiamen,+Fujian,+China/@24.4788776,117.7973602,11z/data=!3m1!4b1!4m6!3m5!1s0x34148379e5bfeb27:0x28a0670a9668d056!8m2!3d24.4795099!4d118.0894799!16zL20vMDEyNmMz?entry=ttu&g_ep=EgoyMDI0MTAwMi4xIKXMDSoASAFQAw%3D%3D");}}
+                        ></Text3d>
 
                         <MapDot dot={jinbian_xyz}></MapDot>
                         <Pole dot={jinbian_xyz}></Pole>
