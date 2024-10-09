@@ -14,6 +14,7 @@ import boldUrl from '../../assets/fonts/bold.blob';
 
 import glsl from 'babel-plugin-glsl/macro'
 import { MyLocations, geoToXYZ } from "../../data/locations";
+import { MapDot } from "../../models/mapDot";
 
 export function Earth(params) {
     
@@ -249,10 +250,7 @@ export function Earth(params) {
                             roughness={0.5}
                         />
 
-                        <mesh position={[xiamen_xyz.x, xiamen_xyz.y, xiamen_xyz.z]}>
-                            <sphereBufferGeometry args={[0.018, 32, 32]} />
-                            <meshBasicMaterial color="red"></meshBasicMaterial>
-                        </mesh>
+                        <MapDot dot={xiamen_xyz}></MapDot>
                         <mesh>
                             <tubeGeometry args={[xiamen_pole, 30, 0.013, 8, false]}/>
                             <meshBasicMaterial color="#BFF8FF"></meshBasicMaterial>
