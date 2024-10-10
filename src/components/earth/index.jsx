@@ -12,6 +12,7 @@ import { TextPole } from "../../models/textPole";
 import { EarthMaterial } from "../../models/earthMaterial";
 import { CloudMaterial } from "../../models/cloudMaterial";
 import { Cube } from "../../models/cube";
+import { DefaultSettings } from "../../data/default";
 
 export function Earth(params) {
 
@@ -28,7 +29,7 @@ export function Earth(params) {
         [MyPhotoMap, LinkedinMap, IgMap]
     );
 
-    const earth_r = 1.6;
+    const earth_r = DefaultSettings.earth_r || 1.6;
 
     /** Locations */
     const xiamen_xyz = geoToXYZ(earth_r, MyLocations.xiamen);
