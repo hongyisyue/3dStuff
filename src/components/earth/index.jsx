@@ -1,10 +1,5 @@
 import { useLoader, useFrame } from "@react-three/fiber";
 import React, { useRef, useState } from "react";
-import * as THREE from "three";
-import EarthDayMap from "../../assets/textures/8k_earth_daymap.jpg"
-import EarthNormalMap from "../../assets/textures/8k_earth_normal_map.jpg";
-import EarthSpecularMap from "../../assets/textures/8k_earth_specular_map.jpg";
-import EarthCloudsMap from "../../assets/textures/8k_earth_clouds.jpg";
 import MyPhotoMap from "../../assets/textures/myPhoto3.jpg";
 import LinkedinMap from "../../assets/textures/linkedin.png";
 import IgMap from "../../assets/textures/ig.png";
@@ -15,6 +10,7 @@ import { MapDot } from "../../models/mapDot";
 import { MovingPath } from "../../models/movingPath";
 import { TextPole } from "../../models/textPole";
 import { EarthMaterial } from "../../models/earthMaterial";
+import { CloudMaterial } from "../../models/cloudMaterial";
 
 export function Earth(params) {
 
@@ -32,9 +28,9 @@ export function Earth(params) {
     const [time, setTime] = useState(0.0);
 
     /** Textures */
-    const [dayMap, normalMap, specularMap, cloudsMap, myPhotoMap, lkMap, igMap] = useLoader(
+    const [myPhotoMap, lkMap, igMap] = useLoader(
         TextureLoader,
-        [EarthDayMap, EarthNormalMap, EarthSpecularMap, EarthCloudsMap, MyPhotoMap, LinkedinMap, IgMap]
+        [MyPhotoMap, LinkedinMap, IgMap]
     );
 
     const earth_r = 1.6;
@@ -139,14 +135,7 @@ export function Earth(params) {
 
             <mesh ref={cloudsRef} position={[2, 0, 0]}>
                 <TrackballControls />
-                <sphereGeometry args={[earth_r + 0.05, 64, 64]} />
-                <meshPhongMaterial
-                    map={cloudsMap}
-                    opacity={0.45}
-                    depthWrite={true}
-                    transparent={true}
-                    side={THREE.DoubleSide}
-                />
+                <CloudMaterial/>
                 <mesh ref={earthRef} position={[0, 0, 0]}>
                     <EarthMaterial/>
 
