@@ -164,6 +164,14 @@ export function Earth(params) {
                     ></MovingPath>
 
                     <MapDot dot={cannon_xyz}></MapDot>
+                    <TextPole
+                        dot={cannon_xyz}
+                        text={'CANNONBEACH'}
+                        length={0.5}
+                        rotate={2.5}
+                        mouseEnterEvent={(e) => setEnter(true)}
+                        mouseLeaveEvent={(e) => setEnter(false)}
+                    ></TextPole>
                     <MovingPath
                         from={vancouver_xyz}
                         to={cannon_xyz}
@@ -192,6 +200,13 @@ export function Earth(params) {
                     ></MovingPath>
 
                     <MapDot dot={toronto_xyz}></MapDot>
+                    <TextPole
+                        dot={toronto_xyz}
+                        text={'TORONTO'}
+                        rotate={2.5}
+                        mouseEnterEvent={(e) => setEnter(true)}
+                        mouseLeaveEvent={(e) => setEnter(false)}
+                    ></TextPole>
                     <MovingPath
                         from={stoon_xyz}
                         to={toronto_xyz}

@@ -31,7 +31,7 @@ export function TextPole(params) {
      */
     const dot = params.dot;
     const text = params.text;
-
+    const lengthFactor = params.length ? 4 / params.length : 4; 
     const rotate = params.rotate ?? 1;
     const font = useLoader(THREE.FontLoader, boldUrl);
     const textOption = params.textOption || {
@@ -47,7 +47,11 @@ export function TextPole(params) {
     // returns a point of the end of the pole
     // p1 should always be the center point of the earth
     function getLineEndPonit(p1, p2) {
-        const v3 = new THREE.Vector3(p2.x + (p2.x - p1.x) / 4, p2.y + (p2.y - p1.y) / 4, p2.z + (p2.z - p1.z) / 4);
+        const v3 = new THREE.Vector3(
+            p2.x + (p2.x - p1.x) / lengthFactor,
+            p2.y + (p2.y - p1.y) / lengthFactor,
+            p2.z + (p2.z - p1.z) / lengthFactor
+        );
 
         return v3;
     }
@@ -57,7 +61,10 @@ export function TextPole(params) {
         const poleEnd = getLineEndPonit(center, dot);
         return (
             <>
-                <Pole dot={dot}></Pole>
+                <Pole
+                    dot={dot}
+                    length={params.length ? params.length : 1}
+                ></Pole>
                 <Text3d
                     pos={poleEnd}
                     text={text}
