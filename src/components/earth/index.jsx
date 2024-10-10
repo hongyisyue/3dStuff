@@ -14,6 +14,7 @@ import { MyLocations, geoToXYZ } from "../../data/locations";
 import { MapDot } from "../../models/mapDot";
 import { MovingPath } from "../../models/movingPath";
 import { TextPole } from "../../models/textPole";
+import { EarthMaterial } from "../../models/earthMaterial";
 
 export function Earth(params) {
 
@@ -147,14 +148,7 @@ export function Earth(params) {
                     side={THREE.DoubleSide}
                 />
                 <mesh ref={earthRef} position={[0, 0, 0]}>
-                    <sphereGeometry args={[earth_r, 64, 64]} />
-                    <meshPhongMaterial specularMap={specularMap} />
-                    <meshStandardMaterial
-                        map={dayMap}
-                        normalMap={normalMap}
-                        metalness={0.6}
-                        roughness={0.5}
-                    />
+                    <EarthMaterial/>
 
                     <MapDot dot={xiamen_xyz}></MapDot>
                     <TextPole
