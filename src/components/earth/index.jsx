@@ -11,23 +11,18 @@ import { MovingPath } from "../../models/movingPath";
 import { TextPole } from "../../models/textPole";
 import { EarthMaterial } from "../../models/earthMaterial";
 import { CloudMaterial } from "../../models/cloudMaterial";
+import { Cube } from "../../models/cube";
 
 export function Earth(params) {
 
     /** refs */
     let cloudsRef = useRef();
     let earthRef = useRef();
-    let photoRef = useRef();
-    let linkedinRef = useRef();
-    let igRef = useRef();
 
     const [isEnter, setEnter] = useState(false);
-    const [isPhotoEnter, setPhotoEnter] = useState(false);
-    const [isLkEnter, setLkEnter] = useState(false);
-    const [isIgEnter, setIgEnter] = useState(false);
     const [time, setTime] = useState(0.0);
 
-    /** Textures */
+    /** Textures for the cubes */
     const [myPhotoMap, lkMap, igMap] = useLoader(
         TextureLoader,
         [MyPhotoMap, LinkedinMap, IgMap]
@@ -56,21 +51,6 @@ export function Earth(params) {
             console.log(isEnter);
             cloudsRef.current.rotation.y += 0.005;
         }
-
-        if (!isPhotoEnter) {
-            photoRef.current.rotation.x += 0.005;
-            photoRef.current.rotation.y += 0.005;
-        }
-
-        if (!isLkEnter) {
-            linkedinRef.current.rotation.x += 0.005;
-            linkedinRef.current.rotation.y += 0.005;
-        }
-
-        if (!isIgEnter) {
-            igRef.current.rotation.x += 0.005;
-            igRef.current.rotation.y += 0.005;
-        }
     });
 
     return (
@@ -89,49 +69,23 @@ export function Earth(params) {
                 fade={true}
             />
 
-            <mesh
-                ref={photoRef}
-                position={[-4, 1.5, 0]}
-                onPointerEnter={(e) => { setPhotoEnter(true); }}
-                onPointerLeave={(e) => { setPhotoEnter(false); }}
-            >
-                <boxBufferGeometry args={[1, 1, 1]} />
-                <meshBasicMaterial
-                    map={myPhotoMap}
-                    metalness={0.6}
-                    roughness={0.5}
-                />
-            </mesh>
-
-            <mesh
-                ref={linkedinRef}
-                position={[-4, -0.5, 0]}
-                onPointerDown={(e) => { window.open("https://www.linkedin.com/in/hong-xue/"); }}
-                onPointerEnter={(e) => { setLkEnter(true); }}
-                onPointerLeave={(e) => { setLkEnter(false); }}
-            >
-                <boxBufferGeometry args={[0.3, 0.3, 0.3]} />
-                <meshBasicMaterial
-                    map={lkMap}
-                    metalness={0.6}
-                    roughness={0.5}
-                />
-            </mesh>
-
-            <mesh
-                ref={igRef}
-                position={[-4, -1.5, 0]}
-                onPointerDown={(e) => { window.open("https://www.instagram.com/hongxdå.art/"); }}
-                onPointerEnter={(e) => { setIgEnter(true); }}
-                onPointerLeave={(e) => { setIgEnter(false); }}
-            >
-                <boxBufferGeometry args={[0.3, 0.3, 0.3]} />
-                <meshBasicMaterial
-                    map={igMap}
-                    metalness={0.6}
-                    roughness={0.5}
-                />
-            </mesh>
+            <Cube
+                pos={[-4,1.5,0]}
+                material={myPhotoMap}
+                spec={[1,1,1]}
+            ></Cube>
+            <Cube
+                pos={[-4,-0.5,0]}
+                material={lkMap}
+                spec={[0.3, 0.3, 0.3]}
+                mouseDownEvent={(e) => { window.open("https://www.linkedin.com/in/hong-xue/"); }}
+            ></Cube>
+            <Cube
+                pos={[-4,-1.5,0]}
+                material={igMap}
+                spec={[0.3, 0.3, 0.3]}
+                mouseDownEvent={(e) => { window.open("https://www.instagram.com/hongx.art/"); }}
+            ></Cube>
 
             <mesh ref={cloudsRef} position={[2, 0, 0]}>
                 <TrackballControls />
