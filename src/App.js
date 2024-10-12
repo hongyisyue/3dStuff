@@ -1,7 +1,7 @@
 import './App.css';
 import styled from 'styled-components';
 import { Canvas } from '@react-three/fiber';
-import { Earth } from './components/earth';
+import { Space } from './components/earth';
 import { Suspense } from 'react';
 
 const CanvasContainer = styled.div`
@@ -14,7 +14,7 @@ function App() {
     <CanvasContainer>
       <Canvas>
         <Suspense fallback={null}>
-          <Earth />
+          <Space />
         </Suspense>
       </Canvas>
     </CanvasContainer>
