@@ -10,7 +10,7 @@ export function Earth(params) {
     let cloudsRef = useRef();
     let earthRef = useRef();
 
-    const child = params.child;
+    const content = params.content;
     const isEnter = params.isEnter;
     /** Animation */
     useFrame(() => {
@@ -26,7 +26,7 @@ export function Earth(params) {
             <CloudMaterial />
             <mesh ref={earthRef} position={[0, 0, 0]}>
                 <EarthMaterial />
-                {child}
+                {content}
             </mesh>
         </mesh>
     )

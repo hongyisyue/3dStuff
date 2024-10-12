@@ -80,7 +80,7 @@ export function Space(params) {
 
             <Earth
                 isEnter={isEnter}
-                child={
+                content={
                     <>
                         <MapDot dot={xiamen_xyz}></MapDot>
                         <TextPole
