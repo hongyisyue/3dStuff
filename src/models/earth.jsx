@@ -15,7 +15,6 @@ export function Earth(params) {
     /** Animation */
     useFrame(() => {
         if (!isEnter) {
-            console.log(isEnter);
             cloudsRef.current.rotation.y += 0.005;
         }
     });
