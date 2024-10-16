@@ -1,8 +1,8 @@
 import './App.css';
 import styled from 'styled-components';
 import { Canvas } from '@react-three/fiber';
-import { Space } from './components/earth';
 import { Suspense } from 'react';
+import { Main } from './pages/main';
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -14,7 +14,7 @@ function App() {
     <CanvasContainer>
       <Canvas>
         <Suspense fallback={null}>
-          <Space />
+          <Main/>
         </Suspense>
       </Canvas>
     </CanvasContainer>
