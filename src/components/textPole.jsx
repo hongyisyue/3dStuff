@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import { Pole } from "../models/pole";
+import { Pole } from "../components/pole";
 import { DefaultSettings } from "../data/default";
-import { Text3d } from "../models/text3d";
+import { Text3d } from "../components/text3d";
 import { useLoader } from "@react-three/fiber";
 import boldUrl from '../assets/fonts/bold.blob';
 

@@ -5,13 +5,13 @@ import LinkedinMap from "../assets/textures/linkedin.png";
 import IgMap from "../assets/textures/ig.png";
 import { TextureLoader } from "three";
 import { MyLocations, geoToXYZ } from "../data/locations";
-import { MapDot } from "../models/mapDot";
-import { MovingPath } from "../models/movingPath";
-import { TextPole } from "../models/textPole";
-import { Cube } from "../models/cube";
+import { MapDot } from "../components/mapDot";
+import { MovingPath } from "../components/movingPath";
+import { TextPole } from "../components/textPole";
+import { Cube } from "../components/cube";
 import { DefaultSettings } from "../data/default";
-import { Earth } from "../models/earth";
-import { Space } from "../models/space";
+import { Earth } from "../components/earth";
+import { Space } from "../components/space";
 
 export function Main(params) {
 

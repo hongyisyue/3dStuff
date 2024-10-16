@@ -2,8 +2,8 @@ import { useFrame } from "@react-three/fiber";
 import React, { useRef } from "react";
 import { TrackballControls } from "@react-three/drei";
 
-import { EarthMaterial } from "../models/earthMaterial";
-import { CloudMaterial } from "../models/cloudMaterial";
+import { EarthMaterial } from "../components/earthMaterial";
+import { CloudMaterial } from "../components/cloudMaterial";
 
 export function Earth(params) {
     /** refs */
