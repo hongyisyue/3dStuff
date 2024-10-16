@@ -63,7 +63,7 @@ export function Space(params) {
             <Cube
                 pos={[-4, 1.5, 0]}
                 material={myPhotoMap}
-                spec={[1, 1, 1]}
+                spec={[0.5, 0.5, 0.5]}
             ></Cube>
             <Cube
                 pos={[-4, -0.5, 0]}

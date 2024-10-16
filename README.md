@@ -1,14 +1,10 @@
 https://hongyixue.netlify.app/
 
-# If running locally:
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-In the project directory, you can run:
-
+If running locally: In the project directory, you can run:
+### `npm i`
 ### `npm start`
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+Other scripts:
 ### `npm test`
 *no test available at the moment
 Launches the test runner in the interactive watch mode.\
